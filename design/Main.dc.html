@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap">
+  <style>
+    body { margin: 0; background: #fdfdfc; color: #2b2b28;
+           font-family: ui-sans-serif, system-ui, 'Segoe UI', Helvetica, sans-serif; }
+    a { color: #9c5f4a; } a:hover { color: #7a4636; }
+    .hand { font-family: 'Architects Daughter', 'Comic Sans MS', cursive; }
+    .box { border: 1.5px solid #c9c9c2; border-radius: 3px; background: #fff; }
+    .ph { background: #e8e8e3; border: 1.5px dashed #c2c2ba; border-radius: 3px;
+          display: flex; align-items: center; justify-content: center;
+          color: #8a8a83; font-size: 12px; text-align: center; }
+    .hatch { background-image: repeating-linear-gradient(45deg, #e8e8e3 0 6px, #deded8 6px 12px); }
+    .btn { border: 1.5px solid #2b2b28; border-radius: 3px; background: #fff; color: #2b2b28;
+           padding: 11px 18px; font-size: 14px; min-height: 44px; box-sizing: border-box;
+           display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-primary { background: #9c5f4a; border-color: #9c5f4a; color: #fff; }
+    .chip { border: 1.5px solid #c9c9c2; border-radius: 22px; background: #fff;
+            padding: 11px 16px; font-size: 13px; min-height: 44px; box-sizing: border-box;
+            display: inline-flex; align-items: center; gap: 7px; }
+    .chip-on { border-color: #9c5f4a; background: #f6ece8; color: #7a4636; }
+    .muted { color: #8a8a83; }
+  </style>
+</helmet>
+
+<div style="width: 1200px; min-height: 980px; background: #fdfdfc; box-sizing: border-box;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1.5px solid #c9c9c2; background: #fff;">
+    <div style="display: flex; align-items: center; gap: 30px;">
+      <span class="hand" style="font-size: 23px; letter-spacing: 0.5px;">unlockt</span>
+      <div style="display: flex; align-items: center; gap: 22px; font-size: 14px;">
+        <span style="border-bottom: 2px solid #9c5f4a; padding-bottom: 3px;">Library</span>
+        <span class="muted">Leaderboard</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px; font-size: 14px;">
+      <span class="muted">Signed in as Matt</span>
+      <div class="btn">Log out</div>
+    </div>
+  </div>
+
+  <div style="padding: 28px 32px 40px 32px;">
+
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 24px;">
+      <div>
+        <h1 class="hand" style="margin: 0 0 6px 0; font-size: 30px; font-weight: 400;">Your library</h1>
+        <span class="muted" style="font-size: 14px;">42 games &middot; last Steam sync 2 hours ago</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div class="btn">Sync Steam library</div>
+        <div class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Add game
+        </div>
+      </div>
+    </div>
+
+    <div class="box" style="display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 14px 18px; margin-bottom: 24px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 9px; flex-wrap: wrap;">
+        <span class="muted" style="font-size: 13px; margin-right: 4px;">Status</span>
+        <div class="chip chip-on">All</div>
+        <div class="chip">Backlog</div>
+        <div class="chip">Playing</div>
+        <div class="chip">Completed</div>
+        <div class="chip">Dropped</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="chip" style="min-width: 128px; justify-content: space-between;">
+          <span>Genre</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="chip" style="min-width: 128px; justify-content: space-between;">
+          <span>Platform</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="chip" style="min-width: 168px; justify-content: space-between;">
+          <span>Sort: Recently added</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px;">
+
+      <div class="box" style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+        <div class="ph hatch" style="height: 150px;">cover art</div>
+        <div style="font-size: 15px; line-height: 1.3;">Hollow Knight</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="chip" style="min-height: 28px; padding: 5px 11px; font-size: 12px;">Playing</span>
+          <span class="muted" style="font-size: 12px;">Steam</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Difficulty</span>
+          <div style="display: flex; gap: 3px;">
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #e8e8e3; border: 1px solid #d5d5ce; box-sizing: border-box;"></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Achievements</span>
+          <span>31 / 63</span>
+        </div>
+      </div>
+
+      <div class="box" style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+        <div class="ph hatch" style="height: 150px;">cover art</div>
+        <div style="font-size: 15px; line-height: 1.3;">Celeste</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="chip" style="min-height: 28px; padding: 5px 11px; font-size: 12px;">Completed</span>
+          <span class="muted" style="font-size: 12px;">Steam</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Difficulty</span>
+          <div style="display: flex; gap: 3px;">
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Achievements</span>
+          <span>40 / 40</span>
+        </div>
+      </div>
+
+      <div class="box" style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+        <div class="ph hatch" style="height: 150px;">cover art</div>
+        <div style="font-size: 15px; line-height: 1.3;">Outer Wilds</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="chip" style="min-height: 28px; padding: 5px 11px; font-size: 12px;">Backlog</span>
+          <span class="muted" style="font-size: 12px;">Steam</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Difficulty</span>
+          <span class="muted" style="font-style: italic;">not rated</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Achievements</span>
+          <span>0 / 14</span>
+        </div>
+      </div>
+
+      <div class="box" style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+        <div class="ph" style="height: 150px; font-style: italic;">no cover art<br>available</div>
+        <div style="font-size: 15px; line-height: 1.3;">Pathologic 2</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="chip" style="min-height: 28px; padding: 5px 11px; font-size: 12px;">Dropped</span>
+          <span class="muted" style="font-size: 12px;">Manual</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Difficulty</span>
+          <div style="display: flex; gap: 3px;">
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Achievements</span>
+          <span class="muted" style="font-style: italic;">not tracked</span>
+        </div>
+      </div>
+
+      <div class="box" style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+        <div class="ph hatch" style="height: 150px;">cover art</div>
+        <div style="font-size: 15px; line-height: 1.3;">Dark Souls III</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="chip" style="min-height: 28px; padding: 5px 11px; font-size: 12px;">Playing</span>
+          <span class="muted" style="font-size: 12px;">Steam</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Difficulty</span>
+          <div style="display: flex; gap: 3px;">
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #e8e8e3; border: 1px solid #d5d5ce; box-sizing: border-box;"></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Achievements</span>
+          <span>18 / 43</span>
+        </div>
+      </div>
+
+      <div class="box" style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+        <div class="ph hatch" style="height: 150px;">cover art</div>
+        <div style="font-size: 15px; line-height: 1.3;">Return of the Obra Dinn</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="chip" style="min-height: 28px; padding: 5px 11px; font-size: 12px;">Completed</span>
+          <span class="muted" style="font-size: 12px;">Steam</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Difficulty</span>
+          <div style="display: flex; gap: 3px;">
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #e8e8e3; border: 1px solid #d5d5ce; box-sizing: border-box;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #e8e8e3; border: 1px solid #d5d5ce; box-sizing: border-box;"></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Achievements</span>
+          <span>10 / 10</span>
+        </div>
+      </div>
+
+      <div class="box" style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+        <div class="ph hatch" style="height: 150px;">cover art</div>
+        <div style="font-size: 15px; line-height: 1.3;">Disco Elysium</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="chip" style="min-height: 28px; padding: 5px 11px; font-size: 12px;">Backlog</span>
+          <span class="muted" style="font-size: 12px;">Steam</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Difficulty</span>
+          <span class="muted" style="font-style: italic;">not rated</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Achievements</span>
+          <span>0 / 60</span>
+        </div>
+      </div>
+
+      <div class="box" style="padding: 12px; display: flex; flex-direction: column; gap: 10px;">
+        <div class="ph hatch" style="height: 150px;">cover art</div>
+        <div style="font-size: 15px; line-height: 1.3;">Tunic</div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <span class="chip" style="min-height: 28px; padding: 5px 11px; font-size: 12px;">Playing</span>
+          <span class="muted" style="font-size: 12px;">Steam</span>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Difficulty</span>
+          <div style="display: flex; gap: 3px;">
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #9c5f4a;"></div>
+            <div style="width: 13px; height: 13px; border-radius: 2px; background: #e8e8e3; border: 1px solid #d5d5ce; box-sizing: border-box;"></div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+          <span class="muted">Achievements</span>
+          <span>22 / 30</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align: center; margin-top: 22px;">
+      <span class="muted" style="font-size: 13px;">Showing 8 of 42 &middot; <a href="#">show all</a></span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

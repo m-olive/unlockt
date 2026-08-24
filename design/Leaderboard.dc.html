@@ -1,0 +1,162 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap">
+  <style>
+    body { margin: 0; background: #fdfdfc; color: #2b2b28;
+           font-family: ui-sans-serif, system-ui, 'Segoe UI', Helvetica, sans-serif; }
+    a { color: #9c5f4a; } a:hover { color: #7a4636; }
+    .hand { font-family: 'Architects Daughter', 'Comic Sans MS', cursive; }
+    .box { border: 1.5px solid #c9c9c2; border-radius: 3px; background: #fff; }
+    .ph { background: #e8e8e3; border: 1.5px dashed #c2c2ba; border-radius: 3px;
+          display: flex; align-items: center; justify-content: center;
+          color: #8a8a83; font-size: 11px; text-align: center; }
+    .hatch { background-image: repeating-linear-gradient(45deg, #e8e8e3 0 6px, #deded8 6px 12px); }
+    .btn { border: 1.5px solid #2b2b28; border-radius: 3px; background: #fff; color: #2b2b28;
+           padding: 11px 18px; font-size: 14px; min-height: 44px; box-sizing: border-box;
+           display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .chip { border: 1.5px solid #c9c9c2; border-radius: 22px; background: #fff;
+            padding: 11px 16px; font-size: 13px; min-height: 44px; box-sizing: border-box;
+            display: inline-flex; align-items: center; gap: 7px; }
+    .muted { color: #8a8a83; }
+    .rank { font-size: 19px; color: #8a8a83; width: 34px; text-align: right; }
+    .bar { height: 9px; border-radius: 5px; background: #e8e8e3; overflow: hidden; }
+    .bar > div { height: 100%; background: #9c5f4a; }
+    .row { display: grid; grid-template-columns: 34px 52px 1fr 230px 110px 24px;
+           gap: 18px; align-items: center; padding: 14px 18px; }
+  </style>
+</helmet>
+
+<div style="width: 1200px; min-height: 820px; background: #fdfdfc; box-sizing: border-box;">
+
+  <div style="display: flex; align-items: center; justify-content: space-between; padding: 16px 32px; border-bottom: 1.5px solid #c9c9c2; background: #fff;">
+    <div style="display: flex; align-items: center; gap: 30px;">
+      <span class="hand" style="font-size: 23px; letter-spacing: 0.5px;">unlockt</span>
+      <div style="display: flex; align-items: center; gap: 22px; font-size: 14px;">
+        <span class="muted">Library</span>
+        <span style="border-bottom: 2px solid #9c5f4a; padding-bottom: 3px;">Leaderboard</span>
+      </div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 14px; font-size: 14px;">
+      <span class="muted">Signed in as Matt</span>
+      <div class="btn">Log out</div>
+    </div>
+  </div>
+
+  <div style="padding: 28px 32px 40px 32px;">
+
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 22px;">
+      <div>
+        <h1 class="hand" style="margin: 0 0 6px 0; font-size: 30px; font-weight: 400;">Hardest games</h1>
+        <span class="muted" style="font-size: 14px;">Ranked by average community difficulty rating.</span>
+      </div>
+      <div class="chip" style="min-width: 180px; justify-content: space-between;">
+        <span>Genre: All</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </div>
+
+    <div class="box" style="overflow: hidden; margin-bottom: 16px;">
+
+      <div class="row" style="border-bottom: 1.5px solid #e0e0d9; background: #faf9f7; font-size: 12px; color: #8a8a83; padding-top: 12px; padding-bottom: 12px;">
+        <span style="text-align: right;">#</span>
+        <span></span>
+        <span>Game</span>
+        <span>Average difficulty</span>
+        <span>Ratings</span>
+        <span></span>
+      </div>
+
+      <div class="row" style="border-bottom: 1.5px solid #f0efec;">
+        <span class="rank">1</span>
+        <div class="ph hatch" style="width: 52px; height: 68px;">cover</div>
+        <div>
+          <div style="font-size: 15px; margin-bottom: 3px;">Cuphead</div>
+          <div class="muted" style="font-size: 12.5px;">Run and gun &middot; PC</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="bar" style="flex-grow: 1;"><div style="width: 96%;"></div></div>
+          <span style="font-size: 14px; width: 30px;">4.8</span>
+        </div>
+        <span class="muted" style="font-size: 13px;">412</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"/></svg>
+      </div>
+
+      <div class="row" style="border-bottom: 1.5px solid #f0efec;">
+        <span class="rank">2</span>
+        <div class="ph hatch" style="width: 52px; height: 68px;">cover</div>
+        <div>
+          <div style="font-size: 15px; margin-bottom: 3px;">Celeste</div>
+          <div class="muted" style="font-size: 12.5px;">Platformer &middot; PC</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="bar" style="flex-grow: 1;"><div style="width: 92%;"></div></div>
+          <span style="font-size: 14px; width: 30px;">4.6</span>
+        </div>
+        <span class="muted" style="font-size: 13px;">507</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"/></svg>
+      </div>
+
+      <div class="row" style="border-bottom: 1.5px solid #f0efec;">
+        <span class="rank">3</span>
+        <div class="ph hatch" style="width: 52px; height: 68px;">cover</div>
+        <div>
+          <div style="font-size: 15px; margin-bottom: 3px;">Dark Souls III</div>
+          <div class="muted" style="font-size: 12.5px;">Action RPG &middot; PC</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="bar" style="flex-grow: 1;"><div style="width: 88%;"></div></div>
+          <span style="font-size: 14px; width: 30px;">4.4</span>
+        </div>
+        <span class="muted" style="font-size: 13px;">689</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"/></svg>
+      </div>
+
+      <div class="row" style="border-bottom: 1.5px solid #f0efec;">
+        <span class="rank">4</span>
+        <div class="ph hatch" style="width: 52px; height: 68px;">cover</div>
+        <div>
+          <div style="font-size: 15px; margin-bottom: 3px;">Hollow Knight</div>
+          <div class="muted" style="font-size: 12.5px;">Metroidvania &middot; PC</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="bar" style="flex-grow: 1;"><div style="width: 84%;"></div></div>
+          <span style="font-size: 14px; width: 30px;">4.2</span>
+        </div>
+        <span class="muted" style="font-size: 13px;">318</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"/></svg>
+      </div>
+
+      <div class="row">
+        <span class="rank">5</span>
+        <div class="ph hatch" style="width: 52px; height: 68px;">cover</div>
+        <div>
+          <div style="font-size: 15px; margin-bottom: 3px;">Sekiro: Shadows Die Twice</div>
+          <div class="muted" style="font-size: 12.5px;">Action &middot; PC</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="bar" style="flex-grow: 1;"><div style="width: 82%;"></div></div>
+          <span style="font-size: 14px; width: 30px;">4.1</span>
+        </div>
+        <span class="muted" style="font-size: 13px;">254</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"/></svg>
+      </div>
+
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 9px; font-size: 12.5px; color: #8a8a83;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="1.8" stroke-linecap="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6v.2"/></svg>
+      <span>Games need at least 5 community ratings to be ranked. 23 games are currently below that threshold.</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

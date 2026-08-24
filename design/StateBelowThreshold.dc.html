@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap">
+  <style>
+    body { margin: 0; background: #fdfdfc; color: #2b2b28;
+           font-family: ui-sans-serif, system-ui, 'Segoe UI', Helvetica, sans-serif; }
+    a { color: #9c5f4a; } a:hover { color: #7a4636; }
+    .hand { font-family: 'Architects Daughter', 'Comic Sans MS', cursive; }
+    .box { border: 1.5px solid #c9c9c2; border-radius: 3px; background: #fff; }
+    .ph { background: #e8e8e3; border: 1.5px dashed #c2c2ba; border-radius: 3px;
+          display: flex; align-items: center; justify-content: center;
+          color: #8a8a83; font-size: 10px; text-align: center; }
+    .hatch { background-image: repeating-linear-gradient(45deg, #e8e8e3 0 6px, #deded8 6px 12px); }
+    .muted { color: #8a8a83; }
+    .tag { font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; color: #8a8a83; }
+    .bar { height: 9px; border-radius: 5px; background: #e8e8e3; overflow: hidden; }
+    .bar > div { height: 100%; background: #c2c2ba; }
+  </style>
+</helmet>
+
+<div style="width: 620px; min-height: 380px; background: #fdfdfc; box-sizing: border-box; padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+
+  <span class="tag">Leaderboard &mdash; below vote threshold</span>
+
+  <div style="display: flex; flex-direction: column; gap: 14px; flex-grow: 1;">
+
+    <p class="muted" style="margin: 0; font-size: 13px; line-height: 1.5;">
+      Unranked games sit below the table so a single 5-star rating can't top the chart.
+    </p>
+
+    <div class="box" style="overflow: hidden;">
+      <div style="padding: 11px 16px; border-bottom: 1.5px solid #e0e0d9; background: #faf9f7; font-size: 12px; color: #8a8a83;">
+        Not yet ranked &mdash; fewer than 5 ratings
+      </div>
+
+      <div style="display: grid; grid-template-columns: 40px 1fr 130px 92px; gap: 14px; align-items: center; padding: 12px 16px; border-bottom: 1.5px solid #f0efec;">
+        <div class="ph hatch" style="width: 40px; height: 52px;">cover</div>
+        <div>
+          <div style="font-size: 14px; margin-bottom: 2px;">Pathologic 2</div>
+          <div class="muted" style="font-size: 12px;">Survival &middot; PC</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="bar" style="flex-grow: 1;"><div style="width: 90%;"></div></div>
+          <span class="muted" style="font-size: 13px; width: 26px;">4.5</span>
+        </div>
+        <span class="muted" style="font-size: 12.5px;">2 ratings</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 40px 1fr 130px 92px; gap: 14px; align-items: center; padding: 12px 16px; border-bottom: 1.5px solid #f0efec;">
+        <div class="ph hatch" style="width: 40px; height: 52px;">cover</div>
+        <div>
+          <div style="font-size: 14px; margin-bottom: 2px;">Jet Set Radio</div>
+          <div class="muted" style="font-size: 12px;">Action &middot; PC</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="bar" style="flex-grow: 1;"><div style="width: 76%;"></div></div>
+          <span class="muted" style="font-size: 13px; width: 26px;">3.8</span>
+        </div>
+        <span class="muted" style="font-size: 12.5px;">4 ratings</span>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 40px 1fr 130px 92px; gap: 14px; align-items: center; padding: 12px 16px;">
+        <div class="ph" style="width: 40px; height: 52px; font-style: italic;">no<br>cover</div>
+        <div>
+          <div style="font-size: 14px; margin-bottom: 2px;">Umineko: When They Cry</div>
+          <div class="muted" style="font-size: 12px;">Visual novel &middot; PC</div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="bar" style="flex-grow: 1;"><div style="width: 60%;"></div></div>
+          <span class="muted" style="font-size: 13px; width: 26px;">3.0</span>
+        </div>
+        <span class="muted" style="font-size: 12.5px;">1 rating</span>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 9px; font-size: 12.5px; color: #8a8a83;">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8a8a83" stroke-width="1.8" stroke-linecap="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5"/><path d="M12 7.6v.2"/></svg>
+      <span>Rate one of these and it may qualify for the ranking.</span>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

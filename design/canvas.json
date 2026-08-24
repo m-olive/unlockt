@@ -1,0 +1,50 @@
+{
+  "pages": [
+    { "id": "page-1", "name": "MVP screens" },
+    { "id": "page-2", "name": "Error and empty states" }
+  ],
+  "artboards": [
+    { "file": "Login.dc.html", "x": 0, "y": 0, "w": 1200, "h": 760, "page": "page-1", "title": "Log in" },
+    { "file": "Register.dc.html", "x": 1280, "y": 0, "w": 1200, "h": 760, "page": "page-1", "title": "Register" },
+
+    { "file": "Main.dc.html", "x": 0, "y": 880, "w": 1200, "h": 1010, "page": "page-1", "title": "Library" },
+    { "file": "GameDetail.dc.html", "x": 1280, "y": 880, "w": 1200, "h": 1220, "page": "page-1", "title": "Game detail + achievements" },
+
+    { "file": "AddGame.dc.html", "x": 0, "y": 2220, "w": 1200, "h": 860, "page": "page-1", "title": "Add game" },
+    { "file": "Leaderboard.dc.html", "x": 1280, "y": 2220, "w": 1200, "h": 860, "page": "page-1", "title": "Leaderboard" },
+
+    { "file": "LinkSteam.dc.html", "x": 0, "y": 3200, "w": 1200, "h": 760, "page": "page-1", "title": "Link Steam account" },
+
+    { "file": "StatePrivateProfile.dc.html", "x": 0, "y": 0, "w": 620, "h": 400, "page": "page-2", "title": "Private Steam profile" },
+    { "file": "StateGameNotFound.dc.html", "x": 700, "y": 0, "w": 620, "h": 400, "page": "page-2", "title": "Game not found" },
+    { "file": "StateNoAchievements.dc.html", "x": 1400, "y": 0, "w": 620, "h": 400, "page": "page-2", "title": "No achievement data" },
+    { "file": "StateBelowThreshold.dc.html", "x": 0, "y": 520, "w": 620, "h": 400, "page": "page-2", "title": "Below vote threshold" }
+  ],
+  "annotations": [
+    {
+      "id": "note-flow",
+      "x": 0,
+      "y": -150,
+      "w": 460,
+      "text": "unlockt MVP wireframes\n\nSeven screens, low fidelity on purpose — layout and control placement only, no visual style committed.\n\nGrey hatched blocks are cover art; plain grey boxes are achievement icons.",
+      "page": "page-1"
+    },
+    {
+      "id": "note-detail",
+      "x": 2560,
+      "y": 880,
+      "w": 300,
+      "text": "Game detail and the achievement list are one screen here rather than two. Worth deciding: the achievement table is the heaviest thing in the MVP and it may want its own route.",
+      "page": "page-1"
+    },
+    {
+      "id": "note-states",
+      "x": 0,
+      "y": -150,
+      "w": 460,
+      "text": "The four failure paths from your user stories.\n\nEach one is a story you have to demo, and each is easy to leave as a blank screen if it isn't drawn up front.",
+      "page": "page-2"
+    }
+  ],
+  "launch": { "view": "canvas", "page": "page-1" }
+}
