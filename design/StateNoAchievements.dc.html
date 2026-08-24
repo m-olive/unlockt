@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap">
+  <style>
+    body { margin: 0; background: #fdfdfc; color: #2b2b28;
+           font-family: ui-sans-serif, system-ui, 'Segoe UI', Helvetica, sans-serif; }
+    a { color: #9c5f4a; } a:hover { color: #7a4636; }
+    .hand { font-family: 'Architects Daughter', 'Comic Sans MS', cursive; }
+    .box { border: 1.5px solid #c9c9c2; border-radius: 3px; background: #fff; }
+    .btn { border: 1.5px solid #2b2b28; border-radius: 3px; background: #fff; color: #2b2b28;
+           padding: 11px 18px; font-size: 14px; min-height: 44px; box-sizing: border-box;
+           display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .muted { color: #8a8a83; }
+    .tag { font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; color: #8a8a83; }
+  </style>
+</helmet>
+
+<div style="width: 620px; min-height: 380px; background: #fdfdfc; box-sizing: border-box; padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+
+  <span class="tag">Game detail &mdash; achievements not tracked</span>
+
+  <div style="display: flex; flex-direction: column; gap: 14px; flex-grow: 1;">
+
+    <div style="display: flex; align-items: flex-end; justify-content: space-between;">
+      <h2 class="hand" style="margin: 0; font-size: 22px; font-weight: 400;">Achievements</h2>
+      <span class="muted" style="font-size: 12.5px;">Pathologic 2 &middot; added manually</span>
+    </div>
+
+    <div class="box" style="flex-grow: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 13px; padding: 30px 36px; border-style: dashed;">
+      <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#c2c2ba" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v5a4 4 0 01-8 0z"/><path d="M8 5.5H5.5V7a3 3 0 003 3"/><path d="M16 5.5h2.5V7a3 3 0 01-3 3"/><path d="M12 13v3.5"/><path d="M9 20h6"/><path d="M10.5 16.5h3l.7 3.5h-4.4z"/></svg>
+      <h3 class="hand" style="margin: 0; font-size: 19px; font-weight: 400;">Achievements aren't tracked for this title</h3>
+      <p class="muted" style="margin: 0; font-size: 13.5px; line-height: 1.55; max-width: 420px;">
+        This game was added by hand rather than imported from Steam, so there's no achievement list to pull. You can still set an overall difficulty rating for it.
+      </p>
+      <div class="btn" style="margin-top: 4px;">Rate overall difficulty</div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

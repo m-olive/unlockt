@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap">
+  <style>
+    body { margin: 0; background: #fdfdfc; color: #2b2b28;
+           font-family: ui-sans-serif, system-ui, 'Segoe UI', Helvetica, sans-serif; }
+    a { color: #9c5f4a; } a:hover { color: #7a4636; }
+    .hand { font-family: 'Architects Daughter', 'Comic Sans MS', cursive; }
+    .box { border: 1.5px solid #c9c9c2; border-radius: 3px; background: #fff; }
+    .btn { border: 1.5px solid #2b2b28; border-radius: 3px; background: #fff; color: #2b2b28;
+           padding: 11px 18px; font-size: 14px; min-height: 44px; box-sizing: border-box;
+           display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-primary { background: #9c5f4a; border-color: #9c5f4a; color: #fff; }
+    .muted { color: #8a8a83; }
+    .tag { font-size: 11px; letter-spacing: 0.6px; text-transform: uppercase; color: #8a8a83; }
+  </style>
+</helmet>
+
+<div style="width: 620px; min-height: 380px; background: #fdfdfc; box-sizing: border-box; padding: 22px; display: flex; flex-direction: column; gap: 12px;">
+
+  <span class="tag">Link Steam &mdash; private profile</span>
+
+  <div class="box" style="padding: 26px; display: flex; flex-direction: column; gap: 18px; flex-grow: 1;">
+
+    <div style="display: flex; align-items: flex-start; gap: 14px;">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#9c5f4a" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 018 0v3"/></svg>
+      <div>
+        <h2 class="hand" style="margin: 0 0 7px 0; font-size: 21px; font-weight: 400;">That profile is private</h2>
+        <p class="muted" style="margin: 0; font-size: 13.5px; line-height: 1.55;">
+          Steam won't let us read the game list for <strong style="color: #4a4a44; font-weight: 600;">steamcommunity.com/id/mattdo</strong>. Nothing was imported.
+        </p>
+      </div>
+    </div>
+
+    <div style="background: #f7f6f3; border-radius: 3px; padding: 14px 16px;">
+      <div style="font-size: 13px; margin-bottom: 9px;">To fix it, in Steam:</div>
+      <ol class="muted" style="margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.65;">
+        <li>Profile &rarr; Edit Profile &rarr; Privacy Settings</li>
+        <li>Set <strong style="color: #4a4a44; font-weight: 600;">Game details</strong> to Public</li>
+        <li>Come back here and try again</li>
+      </ol>
+    </div>
+
+    <div style="display: flex; gap: 11px; margin-top: auto;">
+      <div class="btn btn-primary">Try again</div>
+      <div class="btn">Use a different profile</div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
