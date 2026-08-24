@@ -8,7 +8,9 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.generator.EventType;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
@@ -16,7 +18,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Entity
-@Table(name = "users")
+@Table(name = "`user`")
 public class User {
 
     @Id
@@ -50,6 +52,7 @@ public class User {
     @Column(name = "last_synced_at")
     private LocalDateTime lastSyncedAt;
 
+    @Generated(event = EventType.INSERT)
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
