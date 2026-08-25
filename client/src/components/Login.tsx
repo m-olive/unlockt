@@ -21,6 +21,7 @@ function Login() {
 
     async function handleSubmit(evt: FormEvent<HTMLFormElement>) {
         evt.preventDefault();
+        setErrors([]);
 
         const token = getCsrfToken();
         if (token === undefined) {
@@ -28,25 +29,33 @@ function Login() {
             return;
         }
 
-        const response = await fetch('/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-XSRF-TOKEN': token,
-            },
-            body: JSON.stringify(credentials)
-        });
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-XSRF-TOKEN': token,
+                },
+                body: JSON.stringify(credentials)
+            });
 
-        if (response.status === 200) {
-            const payload = await response.json();
-            setUser(payload);
-            navigate('/');
-        } else if (response.status === 401) {
-            setErrors(['Login failed']);
-        } else if (response.status === 403) {
-            setErrors(['CSRF rejected']);
-        } else {
-            setErrors(['Error']);
+            if (response.status === 200) {
+                const payload = await response.json().catch(() => null);
+                if (payload === null) {
+                    setErrors(['Error']);
+                    return;
+                }
+                setUser(payload);
+                navigate('/');
+            } else if (response.status === 401) {
+                setErrors(['Login failed']);
+            } else if (response.status === 403) {
+                setErrors(['CSRF rejected']);
+            } else {
+                setErrors(['Error']);
+            }
+        } catch {
+            setErrors(['Could not reach the server. Please try again.']);
         }
     }
 
@@ -56,7 +65,7 @@ function Login() {
 
             <form onSubmit={handleSubmit}>
                 {errors.length > 0 && <ul>
-                    {errors.map(error => <li key={error}>{error}</li>)}
+                    {errors.map((error, i) => <li key={i}>{error}</li>)}
                 </ul>}
 
                 <div className="form-control">
@@ -68,10 +77,7 @@ function Login() {
                     <label htmlFor="password-input">Password: </label>
                     <input type="password" id="password-input" name="password" onChange={handleChange} value={credentials.password} />
                 </div>
-
-                <div className="form-control">
                     <button type="submit">Log in!</button>
-                </div>
             </form>
         </>
     );

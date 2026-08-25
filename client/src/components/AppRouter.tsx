@@ -2,6 +2,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Landing from './Landing';
 import Layout from './Layout';
 import Login from './Login';
+import Register from './Register';
+import RegisterSuccess from './RegisterSuccess';
 
 function AppRouter() {
     const routes = [
@@ -16,6 +18,14 @@ function AppRouter() {
                 {
                     path: '/login',
                     element: <Login />,
+                },
+                {
+                    path: '/register',
+                    element: <Register />,
+                },
+                {
+                    path: '/register-success',
+                    element: <RegisterSuccess/>
                 },
             ]
         }
