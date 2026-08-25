@@ -28,7 +28,10 @@ function Layout() {
                         <span>Signed in as {user.displayName}</span>
                         <button type="button" onClick={handleLogout}>Log out</button>
                       </>
-                    : <Link to="/login">Log in</Link>}
+                    : <>
+                        <Link to="/login">Log in</Link>
+                        <Link to="/register">Register</Link>
+                      </>}
             </nav>
             <Outlet />
         </>
