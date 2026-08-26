@@ -13,8 +13,13 @@ function AuthProvider({ children }: { children: ReactNode }) {
             try {
                 const response = await fetch('/api/auth/me');
                 if (response.status === 200) {
-                    setUser(await response.json());
+                    const payload = await response.json().catch(() => null);
+                    if (payload !== null) {
+                        setUser(payload);
+                    }
                 }
+            } catch {
+                setUser(null);
             } finally {
                 setInitialized(true);
             }

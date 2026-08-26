@@ -4,7 +4,7 @@ import AuthContext from '../context/AuthContext';
 import { getCsrfToken } from '../services/csrf';
 
 function Layout() {
-    const { user, setUser } = useContext(AuthContext);
+    const { user, setUser, initialized } = useContext(AuthContext);
     const navigate = useNavigate();
 
     async function handleLogout() {
@@ -13,7 +13,7 @@ function Layout() {
         await fetch('/api/auth/logout', {
             method: 'POST',
             headers: token ? { 'X-XSRF-TOKEN': token } : {}
-        });
+        }).catch(() => null);
 
         setUser(null);
         navigate('/login');
@@ -23,15 +23,16 @@ function Layout() {
         <>
             <nav>
                 <Link to="/">Home</Link>
-                {user
+                {initialized && (user
                     ? <>
                         <span>Signed in as {user.displayName}</span>
+                        <Link to='/library'>Library</Link>
                         <button type="button" onClick={handleLogout}>Log out</button>
                       </>
                     : <>
                         <Link to="/login">Log in</Link>
                         <Link to="/register">Register</Link>
-                      </>}
+                      </>)}
             </nav>
             <Outlet />
         </>
