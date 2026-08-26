@@ -20,4 +20,12 @@ public interface LibraryEntryRepository extends JpaRepository<LibraryEntry, UUID
     Optional<LibraryEntry> findByIdAndUserId(@Param("id") UUID id, @Param("userId") UUID userId);
 
     boolean existsByUserIdAndGameId(UUID userId, UUID gameId);
+
+    @Query("select le from LibraryEntry le join fetch le.game where le.user.id = :userId and le.game.id = :gameId")
+    Optional<LibraryEntry> findByUserIdAndGameId(@Param("userId") UUID userId, @Param("gameId") UUID gameId);
+
+    @Query("select avg(le.difficultyRating) from LibraryEntry le where le.game.id = :gameId and le.difficultyRating is not null")
+    Double findAverageDifficultyByGameId(@Param("gameId") UUID gameId);
+
+    long countByGameIdAndDifficultyRatingNotNull(UUID gameId);
 }
