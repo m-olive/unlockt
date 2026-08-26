@@ -1,6 +1,6 @@
-export async function findById(gameId) {
+export async function findById(id) {
     try {
-        const response = await fetch(`/api/games/${gameId}`);
+        const response = await fetch(`/api/games/${id}`);
 
         if (response.status === 200) {
             const payload = await response.json().catch(() => null);

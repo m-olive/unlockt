@@ -140,7 +140,7 @@ function Library() {
                     {entry.coverArtUrl
                         ? <img src={entry.coverArtUrl} alt="" width={64} />
                         : <span className="text-muted">no cover art available</span>}
-                    <h5><Link to={`/games/${entry.gameId}`}>{entry.title}</Link></h5>
+                    <h5><Link to={`/games/${entry.id}`}>{entry.title}</Link></h5>
                     <p className="mb-1 text-muted">
                         {entry.status}
                         {entry.platform && <> &middot; {entry.platform}</>}

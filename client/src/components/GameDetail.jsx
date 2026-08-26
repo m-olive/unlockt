@@ -24,7 +24,7 @@ function GameDetail() {
             setLoading(true);
             setErrors([]);
 
-            const result = await findById(gameId);
+            const result = await findById(id);
             if (cancelled) {
                 return;
             }
@@ -44,7 +44,7 @@ function GameDetail() {
         return () => {
             cancelled = true;
         };
-    }, [gameId]);
+    }, [id]);
 
     if (loading) {
         return <p>Loading...</p>;
@@ -69,7 +69,7 @@ function GameDetail() {
 
     return (
         <>
-            {user && <Link to="/library">Back to library</Link>}
+            {initialized && user && <Link to="/library">Back to library</Link>}
 
             {game.coverArtUrl
                 ? <img src={game.coverArtUrl} alt="" width={96} />
