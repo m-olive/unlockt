@@ -26,6 +26,7 @@ function Layout() {
                 {initialized && (user
                     ? <>
                         <span>Signed in as {user.displayName}</span>
+                        <Link to='/library'>Library</Link>
                         <button type="button" onClick={handleLogout}>Log out</button>
                       </>
                     : <>
