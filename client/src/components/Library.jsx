@@ -1,13 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { findAll } from '../services/library';
-
-const STATUS_OPTIONS = [
-    { value: 'BACKLOG', label: 'Backlog' },
-    { value: 'PLAYING', label: 'Playing' },
-    { value: 'COMPLETED', label: 'Completed' },
-    { value: 'DROPPED', label: 'Dropped' },
-];
+import { Link, useNavigate } from 'react-router-dom';
+import { findAll, STATUS_OPTIONS } from '../services/library';
 
 const SORT_OPTIONS = [
     { value: 'title', label: 'Title' },
@@ -147,7 +140,7 @@ function Library() {
                     {entry.coverArtUrl
                         ? <img src={entry.coverArtUrl} alt="" width={64} />
                         : <span className="text-muted">no cover art available</span>}
-                    <h5>{entry.title}</h5>
+                    <h5><Link to={`/games/${entry.gameId}`}>{entry.title}</Link></h5>
                     <p className="mb-1 text-muted">
                         {entry.status}
                         {entry.platform && <> &middot; {entry.platform}</>}

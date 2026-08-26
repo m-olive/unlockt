@@ -1,3 +1,10 @@
+export const STATUS_OPTIONS = [
+    { value: 'BACKLOG', label: 'Backlog' },
+    { value: 'PLAYING', label: 'Playing' },
+    { value: 'COMPLETED', label: 'Completed' },
+    { value: 'DROPPED', label: 'Dropped' },
+];
+
 export async function findAll(filters) {
     const params = new URLSearchParams();
     if (filters.status) {
@@ -39,5 +46,34 @@ export async function findAll(filters) {
         return { ok: false, status: response.status, errors: ['Could not load your library.'] };
     } catch {
         return { ok: false, status: 0, errors: ['Could not reach the server. Please try again.'] };
+    }
+}
+
+
+export async function findById(id) {
+    const url = `/api/library/${id}`;
+
+    try {
+        const response = await fetch(url);
+
+        if (response.status === 200) {
+            const payload = await response.json().catch(() => null);
+            return { ok: true, entries: payload };
+        }
+
+        if (response.status === 400) {
+            const body = await response.json().catch(() => null);
+            return {
+                ok: false,
+                status: 400,
+                errors: ['Could not find game']
+            };
+        } 
+    } catch (e) {
+        return {
+            ok: false,
+            status: 500,
+            errors: ['There was an error on our end']
+        };
     }
 }
