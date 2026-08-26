@@ -1,3 +1,10 @@
+export const STATUS_OPTIONS = [
+    { value: 'BACKLOG', label: 'Backlog' },
+    { value: 'PLAYING', label: 'Playing' },
+    { value: 'COMPLETED', label: 'Completed' },
+    { value: 'DROPPED', label: 'Dropped' },
+];
+
 export async function findAll(filters) {
     const params = new URLSearchParams();
     if (filters.status) {
