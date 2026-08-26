@@ -1,31 +1,4 @@
-export type LibraryEntry = {
-    id: string;
-    gameId: string;
-    title: string;
-    coverArtUrl: string | null;
-    platform: string | null;
-    genre: string | null;
-    steamAppId: string | null;
-    status: string;
-    overallRating: number | null;
-    difficultyRating: number | null;
-    notes: string | null;
-    addedAt: string;
-    updatedAt: string;
-};
-
-export type LibraryFilters = {
-    status: string;
-    genre: string;
-    platform: string;
-    sort: string;
-};
-
-export type LibraryResult =
-    | { ok: true; entries: LibraryEntry[] }
-    | { ok: false; status: number; errors: string[] };
-
-export async function findAll(filters: LibraryFilters): Promise<LibraryResult> {
+export async function findAll(filters) {
     const params = new URLSearchParams();
     if (filters.status) {
         params.set('status', filters.status);
