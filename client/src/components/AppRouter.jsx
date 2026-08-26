@@ -30,7 +30,7 @@ const routes = [
                 element: <RegisterSuccess />,
             },
             {
-                path: 'games/:id',
+                path: 'games/:gameId',
                 element: <GameDetail />,
             },
             {

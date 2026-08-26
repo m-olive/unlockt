@@ -11,7 +11,7 @@ function statusLabel(value) {
 }
 
 function GameDetail() {
-    const { id } = useParams();
+    const { gameId } = useParams();
     const { user, initialized } = useContext(AuthContext);
     const [game, setGame] = useState(null);
     const [errors, setErrors] = useState([]);
@@ -24,7 +24,7 @@ function GameDetail() {
             setLoading(true);
             setErrors([]);
 
-            const result = await findById(id);
+            const result = await findById(gameId);
             if (cancelled) {
                 return;
             }
@@ -44,7 +44,7 @@ function GameDetail() {
         return () => {
             cancelled = true;
         };
-    }, [id]);
+    }, [gameId]);
 
     if (loading) {
         return <p>Loading...</p>;
