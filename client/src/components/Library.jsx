@@ -1,7 +1,6 @@
-import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { findAll, type LibraryEntry, type LibraryFilters } from '../services/library';
+import { findAll } from '../services/library';
 
 const STATUS_OPTIONS = [
     { value: 'BACKLOG', label: 'Backlog' },
@@ -17,18 +16,18 @@ const SORT_OPTIONS = [
     { value: 'rating', label: 'Rating' },
 ];
 
-const INITIAL_FILTERS: LibraryFilters = {
+const INITIAL_FILTERS = {
     status: '',
     genre: '',
     platform: '',
     sort: 'title',
 };
 
-function distinct(values: (string | null)[]): string[] {
-    return [...new Set(values.filter((v): v is string => v !== null && v !== ''))].sort();
+function distinct(values) {
+    return [...new Set(values.filter(v => v !== null && v !== ''))].sort();
 }
 
-function formatDate(value: string): string {
+function formatDate(value) {
     const dateTime = new Date(value);
     return Number.isNaN(dateTime.getTime()) ? value : dateTime.toLocaleDateString();
 }
@@ -36,12 +35,12 @@ function formatDate(value: string): string {
 function Library() {
     const navigate = useNavigate();
 
-    const [entries, setEntries] = useState<LibraryEntry[]>([]);
-    const [errors, setErrors] = useState<string[]>([]);
+    const [entries, setEntries] = useState([]);
+    const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filters, setFilters] = useState<LibraryFilters>(INITIAL_FILTERS);
-    const [genres, setGenres] = useState<string[]>([]);
-    const [platforms, setPlatforms] = useState<string[]>([]);
+    const [filters, setFilters] = useState(INITIAL_FILTERS);
+    const [genres, setGenres] = useState([]);
+    const [platforms, setPlatforms] = useState([]);
 
     useEffect(() => {
         let cancelled = false;
@@ -77,7 +76,7 @@ function Library() {
         };
     }, [filters, navigate]);
 
-    function handleFilterChange(evt: ChangeEvent<HTMLSelectElement>) {
+    function handleFilterChange(evt) {
         const { name, value } = evt.target;
         setFilters(v => ({ ...v, [name]: value }));
     }

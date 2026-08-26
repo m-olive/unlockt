@@ -1,9 +1,8 @@
-import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import AuthContext, { type AuthUser } from './AuthContext';
+import AuthContext from './AuthContext';
 
-function AuthProvider({ children }: { children: ReactNode }) {
-    const [user, setUser] = useState<AuthUser | null>(null);
+function AuthProvider({ children }) {
+    const [user, setUser] = useState(null);
     const [initialized, setInitialized] = useState(false);
 
     // The session cookie survives a page refresh, but React state doesn't.

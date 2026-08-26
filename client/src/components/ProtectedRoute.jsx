@@ -1,9 +1,8 @@
-import type { ReactNode } from 'react';
 import { useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 
-function ProtectedRoute({ children }: { children: ReactNode }) {
+function ProtectedRoute({ children }) {
     const { user, initialized } = useContext(AuthContext);
 
     if (!initialized) {

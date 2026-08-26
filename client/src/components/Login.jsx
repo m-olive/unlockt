@@ -1,4 +1,3 @@
-import type { ChangeEvent, FormEvent } from 'react';
 import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
@@ -13,13 +12,13 @@ function Login() {
         password: "",
     });
 
-    const [errors, setErrors] = useState<string[]>([]);
+    const [errors, setErrors] = useState([]);
 
-    function handleChange(evt: ChangeEvent<HTMLInputElement>) {
+    function handleChange(evt) {
         setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
     }
 
-    async function handleSubmit(evt: FormEvent<HTMLFormElement>) {
+    async function handleSubmit(evt) {
         evt.preventDefault();
         setErrors([]);
 
