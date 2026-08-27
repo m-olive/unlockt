@@ -27,9 +27,7 @@ CREATE TABLE game (
     platform       VARCHAR(50)  NULL,
     genre          VARCHAR(100) NULL,
     steam_appid    VARCHAR(20)  NULL,
-    igdb_id        VARCHAR(50)  NULL,
-    CONSTRAINT uq_game_steam_appid UNIQUE (steam_appid),
-    CONSTRAINT uq_game_igdb_id UNIQUE (igdb_id)
+    CONSTRAINT uq_game_steam_appid UNIQUE (steam_appid)
 );
 
 CREATE TABLE library_entry (

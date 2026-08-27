@@ -149,3 +149,71 @@ export async function update(entryId, entry) {
         };
     }
 }
+
+export async function doDelete(entryId) {
+    const token = getCsrfToken();
+    if (token === undefined) {
+
+        return {
+            ok: false, 
+            status: 0, 
+            errors: ['Missing CSRF token. Please refresh and try again.'] 
+        };
+    }
+
+    try {
+        const response = await fetch(`/api/library/${entryId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-XSRF-TOKEN': token,
+            },
+        });
+
+        if (response.status === 204) {
+
+            return { 
+                ok: true, 
+            };
+        }
+
+        if (response.status === 400) {
+
+            return {
+                ok: false,
+                status: 400,
+                errors: Array.isArray(body) ? body : ['Could not delete game.']
+            };
+        }
+
+        if (response.status === 401) {
+
+            return { 
+                ok: false, 
+                status: 401, 
+                errors: ['You must be logged in to delete game information.'] 
+            };
+        }
+
+        if (response.status === 404) {
+
+            return { 
+                ok: false, 
+                status: 404, 
+                errors: ['That library entry could not be found or you do not own the game.'] 
+            };
+        }
+
+        return { 
+            ok: false, 
+            status: response.status, 
+            errors: ['Could not delete game.'] 
+        };
+    } catch {
+
+        return { 
+            ok: false, 
+            status: 0, 
+            errors: ['Could not reach the server. Please try again.'] 
+        };
+    }
+}

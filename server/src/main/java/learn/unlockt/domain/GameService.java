@@ -30,6 +30,14 @@ public class GameService {
         return libraryEntryRepository.countByGameIdAndDifficultyRatingNotNull(gameId);
     }
 
+    public Double findAverageOverallRating(UUID gameId) {
+        return libraryEntryRepository.findAverageOverallRatingByGameId(gameId);
+    }
+
+    public long countOverallRatings(UUID gameId) {
+        return libraryEntryRepository.countByGameIdAndOverallRatingNotNull(gameId);
+    }
+
     public LibraryEntry findEntry(UUID userId, UUID gameId) {
         if (userId == null) {
             return null;

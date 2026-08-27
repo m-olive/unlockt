@@ -35,6 +35,8 @@ public class GameController {
 
         return ResponseEntity.ok(GameDetailResponse.from(
                 game,
+                service.findAverageOverallRating(gameId),
+                service.countOverallRatings(gameId),
                 service.findAverageDifficulty(gameId),
                 service.countDifficultyRatings(gameId),
                 entry));

@@ -12,12 +12,15 @@ public record GameDetailResponse(
         String platform,
         String genre,
         String steamAppId,
+        Double averageOverallRating,
+        long overallRatingCount,
         Double averageDifficulty,
-        long ratingCount,
+        long difficultyRatingCount,
         boolean owned,
         LibraryEntryResponse entry) {
 
-    public static GameDetailResponse from(Game game, Double averageDifficulty, long ratingCount, LibraryEntry entry) {
+    public static GameDetailResponse from(Game game, Double averageOverallRating, long overallRatingCount,
+                                          Double averageDifficulty, long difficultyRatingCount, LibraryEntry entry) {
         return new GameDetailResponse(
                 game.getId(),
                 game.getTitle(),
@@ -25,8 +28,10 @@ public record GameDetailResponse(
                 game.getPlatform(),
                 game.getGenre(),
                 game.getSteamAppId(),
+                averageOverallRating,
+                overallRatingCount,
                 averageDifficulty,
-                ratingCount,
+                difficultyRatingCount,
                 entry != null,
                 entry == null ? null : LibraryEntryResponse.from(entry));
     }
