@@ -36,9 +36,6 @@ public class Game {
     @Column(name = "steam_appid")
     private String steamAppId;
 
-    @Column(name = "igdb_id")
-    private String igdbId;
-
     public Game() {}
 
     public UUID getId() {
@@ -87,14 +84,6 @@ public class Game {
 
     public void setSteamAppId(String steamAppId) {
         this.steamAppId = steamAppId;
-    }
-
-    public String getIgdbId() {
-        return igdbId;
-    }
-
-    public void setIgdbId(String igdbId) {
-        this.igdbId = igdbId;
     }
 
     @Override

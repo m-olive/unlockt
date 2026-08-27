@@ -28,4 +28,9 @@ public interface LibraryEntryRepository extends JpaRepository<LibraryEntry, UUID
     Double findAverageDifficultyByGameId(@Param("gameId") UUID gameId);
 
     long countByGameIdAndDifficultyRatingNotNull(UUID gameId);
+
+    @Query("select avg(le.overallRating) from LibraryEntry le where le.game.id = :gameId and le.overallRating is not null")
+    Double findAverageOverallRatingByGameId(@Param("gameId") UUID gameId);
+
+    long countByGameIdAndOverallRatingNotNull(UUID gameId);
 }
