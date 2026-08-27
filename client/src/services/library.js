@@ -31,13 +31,22 @@ export async function findAll(filters) {
         if (response.status === 200) {
             const payload = await response.json().catch(() => null);
             if (!Array.isArray(payload)) {
-                return { ok: false, status: 200, errors: ['Unexpected response from the server.'] };
+                return { 
+                    ok: false, 
+                    status: 200, 
+                    errors: ['Unexpected response from the server.'] 
+                };
             }
-            return { ok: true, entries: payload };
+
+            return { 
+                ok: true, 
+                entries: payload 
+            };
         }
 
         if (response.status === 400) {
             const body = await response.json().catch(() => null);
+
             return {
                 ok: false,
                 status: 400,
@@ -45,16 +54,30 @@ export async function findAll(filters) {
             };
         }
 
-        return { ok: false, status: response.status, errors: ['Could not load your library.'] };
+        return { 
+            ok: false, 
+            status: response.status, 
+            errors: ['Could not load your library.'] 
+        };
     } catch {
-        return { ok: false, status: 0, errors: ['Could not reach the server. Please try again.'] };
+
+        return {
+            ok: false, 
+            status: 0, 
+            errors: ['Could not reach the server. Please try again.'] 
+        };
     }
 }
 
 export async function update(entryId, entry) {
     const token = getCsrfToken();
     if (token === undefined) {
-        return { ok: false, status: 0, errors: ['Missing CSRF token. Please refresh and try again.'] };
+
+        return {
+            ok: false, 
+            status: 0, 
+            errors: ['Missing CSRF token. Please refresh and try again.'] 
+        };
     }
 
     try {
@@ -70,13 +93,23 @@ export async function update(entryId, entry) {
         if (response.status === 200) {
             const payload = await response.json().catch(() => null);
             if (payload === null) {
-                return { ok: false, status: 200, errors: ['Unexpected response from the server.'] };
+
+                return { 
+                    ok: false, 
+                    status: 200, 
+                    errors: ['Unexpected response from the server.'] 
+                };
             }
-            return { ok: true, entry: payload };
+
+            return { 
+                ok: true, 
+                entry: payload 
+            };
         }
 
         if (response.status === 400) {
             const body = await response.json().catch(() => null);
+
             return {
                 ok: false,
                 status: 400,
@@ -85,15 +118,34 @@ export async function update(entryId, entry) {
         }
 
         if (response.status === 401) {
-            return { ok: false, status: 401, errors: ['You must be logged in to edit game information.'] };
+
+            return { 
+                ok: false, 
+                status: 401, 
+                errors: ['You must be logged in to edit game information.'] 
+            };
         }
 
         if (response.status === 404) {
-            return { ok: false, status: 404, errors: ['That library entry could not be found.'] };
+
+            return { 
+                ok: false, 
+                status: 404, 
+                errors: ['That library entry could not be found.'] 
+            };
         }
 
-        return { ok: false, status: response.status, errors: ['Could not save your changes.'] };
+        return { 
+            ok: false, 
+            status: response.status, 
+            errors: ['Could not save your changes.'] 
+        };
     } catch {
-        return { ok: false, status: 0, errors: ['Could not reach the server. Please try again.'] };
+
+        return { 
+            ok: false, 
+            status: 0, 
+            errors: ['Could not reach the server. Please try again.'] 
+        };
     }
 }
