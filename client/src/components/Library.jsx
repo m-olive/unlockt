@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { findAll, STATUS_OPTIONS } from '../services/library';
+import { findAll, STATUS_OPTIONS, doDelete } from '../services/library';
 
 const SORT_OPTIONS = [
     { value: 'title', label: 'Title' },
@@ -78,6 +78,16 @@ function Library() {
         setFilters(INITIAL_FILTERS);
     }
 
+    async function handleDelete(entryId) {
+        setErrors([]);
+        const response = await doDelete(entryId);
+        if(response.ok) {
+            setEntries(en => en.filter(e => e.id !== entryId))
+        } else {
+            setErrors(response.errors);
+        }
+    }
+
     const filtered = filters.status !== '' || filters.genre !== '' || filters.platform !== '';
 
     return (
@@ -147,11 +157,12 @@ function Library() {
                         {entry.genre && <> &middot; {entry.genre}</>}
                     </p>
                     <p className="mb-1">
-                        Difficulty: {entry.difficultyRating ?? 'not rated'}
+                        Your difficulty: {entry.difficultyRating ?? 'not rated'}
                         {' '}&middot;{' '}
-                        Rating: {entry.overallRating ?? 'not rated'}
+                        Your rating: {entry.overallRating ?? 'not rated'}
                     </p>
                     <p className="mb-0 text-muted">Added {formatDate(entry.addedAt)}</p>
+                    <button type="button" onClick={() => handleDelete(entry.id)}>Delete</button>
                 </li>)}
             </ul>}
         </>

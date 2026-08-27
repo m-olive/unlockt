@@ -176,15 +176,6 @@ export async function doDelete(entryId) {
             };
         }
 
-        if (response.status === 400) {
-
-            return {
-                ok: false,
-                status: 400,
-                errors: Array.isArray(body) ? body : ['Could not delete game.']
-            };
-        }
-
         if (response.status === 401) {
 
             return { 
