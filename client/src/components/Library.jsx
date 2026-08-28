@@ -11,14 +11,8 @@ const SORT_OPTIONS = [
 
 const INITIAL_FILTERS = {
     status: '',
-    genre: '',
-    platform: '',
     sort: 'title',
 };
-
-function distinct(values) {
-    return [...new Set(values.filter(v => v !== null && v !== ''))].sort();
-}
 
 function formatDate(value) {
     const dateTime = new Date(value);
@@ -32,8 +26,6 @@ function Library() {
     const [errors, setErrors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [filters, setFilters] = useState(INITIAL_FILTERS);
-    const [genres, setGenres] = useState([]);
-    const [platforms, setPlatforms] = useState([]);
 
     useEffect(() => {
         let cancelled = false;
@@ -49,8 +41,6 @@ function Library() {
 
             if (result.ok) {
                 setEntries(result.entries);
-                setGenres(g => g.length > 0 ? g : distinct(result.entries.map(e => e.genre)));
-                setPlatforms(p => p.length > 0 ? p: distinct(result.entries.map(e => e.platform)));
             } else if (result.status === 401) {
                 navigate('/login');
                 return;
@@ -88,7 +78,7 @@ function Library() {
         }
     }
 
-    const filtered = filters.status !== '' || filters.genre !== '' || filters.platform !== '';
+    const filtered = filters.status !== '';
 
     return (
         <>
@@ -106,24 +96,6 @@ function Library() {
                             value={filters.status} onChange={handleFilterChange}>
                         <option value="">All</option>
                         {STATUS_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-                    </select>
-                </div>
-
-                <div className="col-auto">
-                    <label htmlFor="genre-filter" className="form-label">Genre</label>
-                    <select id="genre-filter" name="genre" className="form-select"
-                            value={filters.genre} onChange={handleFilterChange}>
-                        <option value="">All</option>
-                        {genres.map(g => <option key={g} value={g}>{g}</option>)}
-                    </select>
-                </div>
-
-                <div className="col-auto">
-                    <label htmlFor="platform-filter" className="form-label">Platform</label>
-                    <select id="platform-filter" name="platform" className="form-select"
-                            value={filters.platform} onChange={handleFilterChange}>
-                        <option value="">All</option>
-                        {platforms.map(p => <option key={p} value={p}>{p}</option>)}
                     </select>
                 </div>
 
