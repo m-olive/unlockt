@@ -11,7 +11,7 @@ public class SteamClient {
     private final RestClient client;
     private final String apiKey;
 
-    public SteamClient(RestClient.Builder clientBuilder, @Value("${steam.api-key}") String apiKey) {
+    public SteamClient(RestClient.Builder clientBuilder, @Value("${STEAM_API_KEY}") String apiKey) {
         this.apiKey = apiKey;
         this.client = clientBuilder
                 .baseUrl("https://api.steampowered.com")
