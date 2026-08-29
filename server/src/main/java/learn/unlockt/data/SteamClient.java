@@ -47,7 +47,7 @@ public class SteamClient {
     public Optional<List<OwnedGame>> getOwnedGames(String steamId64) {
         OwnedGamesResponse body = client.get()
                 .uri(builder -> builder
-                        .path("https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/")
+                        .path("IPlayerService/GetOwnedGames/v1/")
                         .queryParam("key", apiKey)
                         .queryParam("steamid", steamId64)
                         .queryParam("include_appinfo", 1)
