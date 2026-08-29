@@ -7,14 +7,13 @@ import org.springframework.web.client.RestClient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Component
 public class SteamClient {
     private final RestClient client;
     private final String apiKey;
 
-    public SteamClient(RestClient.Builder clientBuilder, @Value("${STEAM_API_KEY}") String apiKey) {
+    public SteamClient(RestClient.Builder clientBuilder, @Value("${steam.api-key}") String apiKey) {
         this.apiKey = apiKey;
         this.client = clientBuilder
                 .baseUrl("https://api.steampowered.com")
@@ -47,7 +46,7 @@ public class SteamClient {
     public Optional<List<OwnedGame>> getOwnedGames(String steamId64) {
         OwnedGamesResponse body = client.get()
                 .uri(builder -> builder
-                        .path("IPlayerService/GetOwnedGames/v1/")
+                        .path("/IPlayerService/GetOwnedGames/v1/")
                         .queryParam("key", apiKey)
                         .queryParam("steamid", steamId64)
                         .queryParam("include_appinfo", 1)
@@ -69,7 +68,7 @@ public class SteamClient {
         List<OwnedGame> ownedGames = new ArrayList<>();
 
         List<GameRecord> games = result.games();
-        games.forEach(game -> {
+        result.games().forEach(game -> {
                     OwnedGame ownedGame = new OwnedGame(
                       game.appid(),
                       game.name(),
@@ -82,17 +81,44 @@ public class SteamClient {
         return Optional.of(ownedGames);
     }
 
+    public Optional<Integer> getCommunityVisibility(String steamId64) {
+        VisibilityResponse body = client.get()
+                .uri(builder -> builder
+                        .path("/ISteamUser/GetPlayerSummaries/v2/")
+                        .queryParam("key", apiKey)
+                        .queryParam("steamids", steamId64)
+                        .build())
+                .retrieve()
+                .body(VisibilityResponse.class);
 
-    private record VanityUrlResponse(VanityUrlResult response) {
+        if (body == null || body.response() == null) {
+            return Optional.empty();
+        }
+
+        VisibilityResult result = body.response();
+
+        if (result.players() == null || result.players().isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(result.players().getFirst().communityvisibilitystate());
     }
 
-    private record VanityUrlResult(String steamid, int success) {
-    }
+
+    private record VanityUrlResponse(VanityUrlResult response) {}
+
+    private record VanityUrlResult(String steamid, int success) {}
 
     private record OwnedGamesResponse(OwnedGamesResult response) {}
 
-    private record OwnedGamesResult(int game_count, List<GameRecord> games) {}
+    private record OwnedGamesResult(List<GameRecord> games) {}
 
     private record GameRecord(String appid, String name, boolean has_community_visible_stats) {}
+
+    private record VisibilityResponse(VisibilityResult response) {}
+
+    private record VisibilityResult(List<CommunityVisibilityRecord> players) {}
+
+    private record CommunityVisibilityRecord(String steamid, Integer communityvisibilitystate) {}
 
 }
