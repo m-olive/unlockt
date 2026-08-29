@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class SteamClientTest {
 
     static final String PUBLIC_STEAM_ID64 = "76561198253773512";
-    static final String NONEXISTENT_STEAM_ID64 = "76561197960287931";
+    static final String NONEXISTENT_STEAM_ID64 = "76561199999999999";
 
     @Autowired
     SteamClient steamClient;
@@ -22,7 +22,7 @@ class SteamClientTest {
     void shouldResolveKnownVanityName() {
         Optional<String> actual = steamClient.resolveVanityUrl("bsdlv");
 
-        assertNotNull(actual);
+        assertTrue(actual.isPresent());
         assertEquals(PUBLIC_STEAM_ID64, actual.get());
     }
 
@@ -35,24 +35,44 @@ class SteamClientTest {
 
     @Test
     void shouldGetOwnedGames() {
-        Optional<String> name = steamClient.resolveVanityUrl("bsdlv");
-        Optional<List<OwnedGame>> games = steamClient.getOwnedGames(name.orElse(null));
+        Optional<List<OwnedGame>> actual = steamClient.getOwnedGames(PUBLIC_STEAM_ID64);
 
-        assertNotNull(games);
-        List<OwnedGame> actual = games.get();
-        assertFalse(actual.isEmpty());
+        assertTrue(actual.isPresent());
+        assertFalse(actual.get().isEmpty());
 
-        OwnedGame first = actual.getFirst();
+        OwnedGame first = actual.get().getFirst();
 
         assertNotNull(first.appId());
-        assertEquals(PUBLIC_STEAM_ID64, first.appId());
         assertNotNull(first.name());
         assertFalse(first.name().isBlank());
     }
 
     @Test
+    void shouldFindGamesWithVisibleStats() {
+        Optional<List<OwnedGame>> actual = steamClient.getOwnedGames(PUBLIC_STEAM_ID64);
+
+        assertTrue(actual.isPresent());
+        assertTrue(actual.get().stream().anyMatch(OwnedGame::hasCommunityVisibleStats));
+    }
+
+    @Test
     void shouldReturnEmptyForNonexistentSteamId() {
         Optional<List<OwnedGame>> actual = steamClient.getOwnedGames(NONEXISTENT_STEAM_ID64);
+
+        assertTrue(actual.isEmpty());
+    }
+
+    @Test
+    void shouldGetCommunityVisibilityForPublicProfile() {
+        Optional<Integer> actual = steamClient.getCommunityVisibility(PUBLIC_STEAM_ID64);
+
+        assertTrue(actual.isPresent());
+        assertEquals(3, actual.get());
+    }
+
+    @Test
+    void shouldReturnEmptyVisibilityForNonexistentSteamId() {
+        Optional<Integer> actual = steamClient.getCommunityVisibility(NONEXISTENT_STEAM_ID64);
 
         assertTrue(actual.isEmpty());
     }
