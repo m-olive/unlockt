@@ -3,9 +3,11 @@ package learn.unlockt.domain;
 import learn.unlockt.data.*;
 import learn.unlockt.model.Game;
 import learn.unlockt.model.LibraryEntry;
+import learn.unlockt.model.SyncStatus;
 import learn.unlockt.model.User;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -69,15 +71,16 @@ public class SteamService {
     public Result<ImportSummary> importLibrary(UUID userId) {
         Result<ImportSummary> result = new Result<>();
 
-        if(userRepository.findById(userId).isEmpty()) {
+        Optional<User> maybeUser = userRepository.findById(userId);
+        if (maybeUser.isEmpty()) {
             result.addMessage("User not found.", ResultType.NOT_FOUND);
             return result;
         }
 
-        User user = userRepository.findById(userId).get();
+        User user = maybeUser.get();
 
-        if(user.getSteamId64() == null) {
-            result.addMessage("You must link your Steam account to import library", ResultType.INVALID);
+        if (user.getSteamId64() == null) {
+            result.addMessage("You must link your Steam account before importing your library.", ResultType.INVALID);
             return result;
         }
 
@@ -95,6 +98,7 @@ public class SteamService {
                 return result;
             }
 
+            markSynced(user);
             result.setPayload(new ImportSummary(0, 0, 0));
             return result;
         }
@@ -102,7 +106,9 @@ public class SteamService {
         int alreadyInLibrary = 0;
         int gamesAdded = 0;
 
-        for(OwnedGame ownedGame : ownedGames.get()) {
+        List<OwnedGame> games = ownedGames.get();
+
+        for (OwnedGame ownedGame : games) {
             Optional<Game> existingGame = gameRepository.findBySteamAppId(ownedGame.appId());
             Game game;
 
@@ -117,7 +123,7 @@ public class SteamService {
                 game = gameRepository.save(created);
             }
 
-            if(libraryEntryRepository.existsByUserIdAndGameId(userId, game.getId())) {
+            if (libraryEntryRepository.existsByUserIdAndGameId(userId, game.getId())) {
                 alreadyInLibrary++;
             } else {
                 LibraryEntry entry = new LibraryEntry();
@@ -129,9 +135,15 @@ public class SteamService {
             }
         }
 
-        ImportSummary summary = new ImportSummary(alreadyInLibrary, gamesAdded, ownedGames.get().size());
-        result.setPayload(summary);
+        markSynced(user);
 
+        result.setPayload(new ImportSummary(alreadyInLibrary, gamesAdded, games.size()));
         return result;
+    }
+
+    private void markSynced(User user) {
+        user.setSyncStatus(SyncStatus.IDLE);
+        user.setLastSyncedAt(LocalDateTime.now());
+        userRepository.save(user);
     }
 }

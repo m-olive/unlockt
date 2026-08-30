@@ -1,5 +1,6 @@
 package learn.unlockt.controller;
 
+import learn.unlockt.domain.ImportSummary;
 import learn.unlockt.domain.Result;
 import learn.unlockt.domain.SteamService;
 import learn.unlockt.security.AppUserDetails;
@@ -23,6 +24,16 @@ public class SteamController {
 
         if(result.isSuccess()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ErrorResponse.build(result);
+    }
+
+    @PostMapping("/import")
+    public ResponseEntity<Object> importLibrary(@AuthenticationPrincipal AppUserDetails details) {
+        Result<ImportSummary> result = service.importLibrary(details.getUser().getId());
+
+        if (result.isSuccess()) {
+            return new ResponseEntity<>(result.getPayload(), HttpStatus.OK);
         }
         return ErrorResponse.build(result);
     }
