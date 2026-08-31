@@ -28,14 +28,14 @@ function Library() {
     const [filters, setFilters] = useState(INITIAL_FILTERS);
 
     useEffect(() => {
-        let cancelled = false;
+        let canceled = false;
 
         async function load() {
             setLoading(true);
             setErrors([]);
 
             const result = await findAll(filters);
-            if (cancelled) {
+            if (canceled) {
                 return;
             }
 
@@ -55,7 +55,7 @@ function Library() {
         load();
 
         return () => {
-            cancelled = true;
+            canceled = true;
         };
     }, [filters, navigate]);
 

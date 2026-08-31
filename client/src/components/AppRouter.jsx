@@ -8,6 +8,7 @@ import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 import Register from './Register';
 import RegisterSuccess from './RegisterSuccess';
+import Leaderboard from './Leaderboard';
 
 const routes = [
     {
@@ -46,6 +47,10 @@ const routes = [
                         element: <LinkSteam />,
                     },
                 ],
+            },
+            {
+                path: 'leaderboard',
+                element: <Leaderboard />
             },
         ],
     },
