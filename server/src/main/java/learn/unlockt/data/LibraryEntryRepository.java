@@ -39,6 +39,6 @@ public interface LibraryEntryRepository extends JpaRepository<LibraryEntry, UUID
             "where le.difficultyRating is not null " +
             "group by g.id, g.title, g.coverArtUrl " +
             "having count(le.difficultyRating) >= :minVotes " +
-            "order by avg(le.difficultyRating) desc")
+            "order by avg(le.difficultyRating) desc, count(le.difficultyRating) desc, g.title asc")
     List<LeaderboardRow> findLeaderboard(@Param("minVotes") long minVotes);
 }
