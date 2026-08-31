@@ -104,7 +104,44 @@ public class SteamClient {
         return Optional.ofNullable(result.players().getFirst().communityvisibilitystate());
     }
 
-//    public Optional<List<Achi>>
+    public Optional<List<AchievementSchema>> getGameAchievementSchema(String appId) {
+        SchemaResponse body = client.get()
+                .uri(builder -> builder
+                        .path("/ISteamUserStats/GetSchemaForGame/v2/")
+                        .queryParam("key", apiKey)
+                        .queryParam("appid", appId)
+                        .build())
+                .retrieve()
+                .body(SchemaResponse.class);
+
+        if (body == null || body.game() == null) {
+            return Optional.empty();
+        }
+
+        SchemaResult result = body.game();
+
+        if (result.availableGameStats() == null || result.availableGameStats().achievements() == null) {
+            return Optional.of(List.of());
+        }
+
+        List<AchievementSchema> schemas = new ArrayList<>();
+
+        SchemaAvailableStats availableStats = result.availableGameStats();
+        List<SchemaRecord> achievements = availableStats.achievements();
+
+        achievements.forEach(achievement -> {
+            AchievementSchema schema = new AchievementSchema(
+                    achievement.name(),
+                    achievement.displayName(),
+                    achievement.description(),
+                    achievement.icon()
+            );
+
+            schemas.add(schema);
+        });
+
+        return Optional.of(schemas);
+    }
 
 
     private record VanityUrlResponse(VanityUrlResult response) {}
@@ -122,5 +159,14 @@ public class SteamClient {
     private record VisibilityResult(List<CommunityVisibilityRecord> players) {}
 
     private record CommunityVisibilityRecord(String steamid, Integer communityvisibilitystate) {}
+
+    private record SchemaResponse(SchemaResult game) {}
+
+    private record SchemaResult(SchemaAvailableStats availableGameStats) {}
+
+    private record SchemaAvailableStats(List<SchemaRecord> achievements) {}
+
+    private record SchemaRecord(String name, String displayName, String description, String icon) {}
+
 
 }

@@ -2,7 +2,7 @@ package learn.unlockt.data;
 
 public record AchievementSchema(
         String steamKey,
-        String displayName,
+        String name,
         String description,
-        String icon
+        String iconUrl
 ) {}
