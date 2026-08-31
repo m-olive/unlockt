@@ -104,6 +104,8 @@ public class SteamClient {
         return Optional.ofNullable(result.players().getFirst().communityvisibilitystate());
     }
 
+//    public Optional<List<Achi>>
+
 
     private record VanityUrlResponse(VanityUrlResult response) {}
 

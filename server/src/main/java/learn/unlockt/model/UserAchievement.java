@@ -1,11 +1,17 @@
 package learn.unlockt.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -61,11 +67,11 @@ public class UserAchievement {
         this.unlocked = unlocked;
     }
 
-    public Date getUnlockedAt() {
+    public LocalDateTime getUnlockedAt() {
         return unlockedAt;
     }
 
-    public void setUnlockedAt(Date unlockedAt) {
+    public void setUnlockedAt(LocalDateTime unlockedAt) {
         this.unlockedAt = unlockedAt;
     }
 
@@ -80,7 +86,9 @@ public class UserAchievement {
     public UUID getId() {
         return id;
     }
-    public void setId(UUID id) {}
+    public void setId(UUID id) {
+        this.id = id;
+    }
 
     @Override
     public boolean equals(Object o) {
