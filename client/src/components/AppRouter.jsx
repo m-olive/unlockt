@@ -3,6 +3,7 @@ import GameDetail from './GameDetail';
 import Landing from './Landing';
 import Layout from './Layout';
 import Library from './Library';
+import LinkSteam from './LinkSteam';
 import Login from './Login';
 import ProtectedRoute from './ProtectedRoute';
 import Register from './Register';
@@ -39,6 +40,10 @@ const routes = [
                     {
                         path: 'library',
                         element: <Library />,
+                    },
+                    {
+                        path: 'link',
+                        element: <LinkSteam />,
                     },
                 ],
             },
