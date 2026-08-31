@@ -1,5 +1,6 @@
 package learn.unlockt.data;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +10,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Disabled("Live integration test: makes real Steam Web API calls, needs a database and STEAM_API_KEY")
 @SpringBootTest
 class SteamClientTest {
 
