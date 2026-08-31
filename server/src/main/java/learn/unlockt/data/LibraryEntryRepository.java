@@ -33,4 +33,12 @@ public interface LibraryEntryRepository extends JpaRepository<LibraryEntry, UUID
     Double findAverageOverallRatingByGameId(@Param("gameId") UUID gameId);
 
     long countByGameIdAndOverallRatingNotNull(UUID gameId);
+
+    @Query("select new learn.unlockt.data.LeaderboardRow(g.id, g.title, g.coverArtUrl, avg(le.difficultyRating), count(le.difficultyRating)) " +
+            "from LibraryEntry le join le.game g " +
+            "where le.difficultyRating is not null " +
+            "group by g.id, g.title, g.coverArtUrl " +
+            "having count(le.difficultyRating) >= :minVotes " +
+            "order by avg(le.difficultyRating) desc")
+    List<LeaderboardRow> findLeaderboard(@Param("minVotes") long minVotes);
 }
