@@ -25,15 +25,16 @@ function Layout() {
                 <Link to="/">Home</Link>
                 {initialized && (user
                     ? <>
+                        <span>{user.displayName}</span>
                         <Link to='/link'>Link Steam Account</Link>
                         <Link to='/library'>Library</Link>
-                        <span>Signed in as {user.displayName}</span>
                         <button type="button" onClick={handleLogout}>Log out</button>
                       </>
                     : <>
-                        <Link to="/login">Log in</Link>
-                        <Link to="/register">Register</Link>
+                        <Link to='/login'>Log in</Link>
+                        <Link to='/register'>Register</Link>
                       </>)}
+                <Link to="/leaderboard">Game Leaderboard</Link>
             </nav>
             <Outlet />
         </>

@@ -17,7 +17,7 @@ function GameDetail() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        let cancelled = false;
+        let canceled = false;
 
         async function load() {
             setLoading(true);
@@ -25,7 +25,7 @@ function GameDetail() {
             setSaveErrors([]);
 
             const result = await findById(gameId);
-            if (cancelled) {
+            if (canceled) {
                 return;
             }
 
@@ -48,7 +48,7 @@ function GameDetail() {
         load();
 
         return () => {
-            cancelled = true;
+            canceled = true;
         };
     }, [gameId]);
 
