@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { findById } from '../services/games';
 import { STATUS_OPTIONS, update } from '../services/library';
+import { findByGameId, rate } from '../services/achievements';
 import AuthContext from '../context/AuthContext';
 import StarRating from './StarRating';
 
@@ -15,6 +16,10 @@ function GameDetail() {
     const [errors, setErrors] = useState([]);
     const [saveErrors, setSaveErrors] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [achievements, setAchievements] = useState(null);
+    const [achievementFilter, setAchievementFilter] = useState('ALL');
+    const [achievementErrors, setAchievementErrors] = useState([]);
+
 
     useEffect(() => {
         let canceled = false;
@@ -50,6 +55,32 @@ function GameDetail() {
         return () => {
             canceled = true;
         };
+    }, [gameId]);
+
+    useEffect(() => {
+        let canceled = false;
+
+        async function loadAchievements() {
+            setAchievements(null);
+            setAchievementErrors([]);
+
+            const result = await findByGameId(gameId);
+            if (canceled) {
+                return;
+            }
+
+            if (result.ok) {
+                setAchievements(result.achievements);
+            } else {
+                setAchievementErrors(result.errors);
+            }
+        }
+
+        loadAchievements();
+
+        return () => {
+            canceled = true;
+        }
     }, [gameId]);
 
     if (loading) {
@@ -91,6 +122,23 @@ function GameDetail() {
             setSaveErrors(result.errors);
         }
     }
+
+    async function handleRate(achievementId, difficultyRating) {
+        setAchievementErrors([]);
+
+        const result = await rate(gameId, achievementId, difficultyRating);
+
+        if (result.ok) {
+            setAchievements(list => list.map(a =>
+                a.achievementId === achievementId ? result.achievement : a));
+        } else {
+            setAchievementErrors(result.errors);
+        }
+    }
+
+    const visibleAchievements = achievements === null ? [] : 
+             achievements.filter(a => achievementFilter === 'ALL' ||
+            (achievementFilter === 'UNLOCKED' ? a.unlocked : !a.unlocked));
 
     return (
         <>
@@ -156,6 +204,50 @@ function GameDetail() {
                         <button type="submit">Save</button>
                     </form>
             </>}
+
+            <h5>Achievements</h5>
+
+            {achievementErrors.length > 0 && <ul className="text-danger">
+                {achievementErrors.map((error, i) => <li key={i}>{error}</li>)}
+            </ul>}
+
+            {achievements === null
+                ? achievementErrors.length === 0 && <p>Loading achievements...</p>
+                : achievements.length === 0
+                    ? <p className="text-muted">This Steam game ships no achievements, so there is nothing to track here.</p>
+                    : <>
+                        <p className="mb-1">
+                            {achievements.filter(a => a.unlocked).length} of {achievements.length} unlocked
+                            {initialized && user && <> &middot; you&apos;ve rated {achievements.filter(a => a.difficultyRating !== null).length}</>}
+                        </p>
+
+                        <select className="form-select mb-2" value={achievementFilter} onChange={evt => {
+                            setAchievementFilter(evt.target.value)
+                        }}>
+                            <option value="ALL">All</option>
+                            <option value="UNLOCKED">Unlocked</option>
+                            <option value="LOCKED">Locked</option>
+                        </select>
+
+                        <ul className="list-unstyled">
+                            {visibleAchievements.map(a => (
+                                <li key={a.achievementId} className="mb-2">
+                                    {a.iconUrl && <img src={a.iconUrl} alt="" width={48} />}
+                                    <strong>{a.name}</strong>
+                                    {a.description && <p className="mb-0 text-muted">{a.description}</p>}
+                                    <p className="mb-0">
+                                        {a.unlocked
+                                            ? <>Unlocked {new Date(a.unlockedAt).toLocaleDateString()}</>
+                                            : <span className="text-muted">Locked</span>}
+                                    </p>
+                                    {initialized && user &&
+                                        <StarRating value={a.difficultyRating} onChange={v => {
+                                            handleRate(a.achievementId, v)
+                                        }} />}
+                                </li>
+                            ))}
+                        </ul>
+                    </>}
         </>
     );
 }
