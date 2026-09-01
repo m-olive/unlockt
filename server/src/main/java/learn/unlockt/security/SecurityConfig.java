@@ -33,6 +33,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/logout").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/games/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/games/*/achievements").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/leaderboard").permitAll()
                         .anyRequest().authenticated()
                 )

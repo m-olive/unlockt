@@ -77,6 +77,14 @@ public class AchievementService {
             achievements = achievementRepository.findByGameId(game.getId());
         }
 
+        if (userId != null) {
+            User user = userRepository.findById(userId).orElse(null);
+
+            if (user != null) {
+                syncPlayerAchievements(user, game, achievements);
+            }
+        }
+
         Map<UUID, UserAchievement> overlay = userId == null ? Map.of() :
                 userAchievementRepository.findByUserIdAndGameId(userId, gameId).stream()
                   .collect(Collectors.toMap(ua -> ua.getAchievement().getId(), ua -> ua));
@@ -150,5 +158,55 @@ public class AchievementService {
         result.setPayload(view);
 
         return result;
+    }
+
+
+    private void syncPlayerAchievements(User user, Game game, List<Achievement> achievements) {
+        if (user.getSteamId64() == null) {
+            return;
+        }
+
+        Optional<List<PlayerAchievement>> playerAchievements =
+                client.getPlayerAchievements(user.getSteamId64(), game.getSteamAppId());
+
+        if (playerAchievements.isEmpty()) {
+            return;
+        }
+
+        Map<String, Achievement> bySteamKey = achievements.stream()
+                .collect(Collectors.toMap(Achievement::getSteamKey, achievement -> achievement));
+
+        Map<UUID, UserAchievement> existing = userAchievementRepository
+                .findByUserIdAndGameId(user.getId(), game.getId()).stream()
+                .collect(Collectors.toMap(ua -> ua.getAchievement().getId(), ua -> ua));
+
+        List<UserAchievement> toSave = new ArrayList<>();
+
+        playerAchievements.get().forEach(playerAchievement -> {
+            Achievement achievement = bySteamKey.get(playerAchievement.steamKey());
+
+            if (achievement == null) {
+                return;
+            }
+
+            UserAchievement userAchievement = existing.get(achievement.getId());
+
+            if (userAchievement == null) {
+                if (!playerAchievement.unlocked()) {
+                    return;
+                }
+
+                userAchievement = new UserAchievement();
+                userAchievement.setUser(user);
+                userAchievement.setAchievement(achievement);
+            }
+
+            userAchievement.setUnlocked(playerAchievement.unlocked());
+            userAchievement.setUnlockedAt(playerAchievement.unlockedAt());
+
+            toSave.add(userAchievement);
+        });
+
+        userAchievementRepository.saveAll(toSave);
     }
 }
