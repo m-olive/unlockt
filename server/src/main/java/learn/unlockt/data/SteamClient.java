@@ -3,7 +3,10 @@ package learn.unlockt.data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientResponseException;
 
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -67,7 +70,6 @@ public class SteamClient {
 
         List<OwnedGame> ownedGames = new ArrayList<>();
 
-        List<GameRecord> games = result.games();
         result.games().forEach(game -> {
                     OwnedGame ownedGame = new OwnedGame(
                       game.appid(),
@@ -104,6 +106,92 @@ public class SteamClient {
         return Optional.ofNullable(result.players().getFirst().communityvisibilitystate());
     }
 
+    public Optional<List<AchievementSchema>> getGameAchievementSchema(String appId) {
+        SchemaResponse body;
+
+        try {
+            body = client.get()
+                    .uri(builder -> builder
+                            .path("/ISteamUserStats/GetSchemaForGame/v2/")
+                            .queryParam("key", apiKey)
+                            .queryParam("appid", appId)
+                            .build())
+                    .retrieve()
+                    .body(SchemaResponse.class);
+        } catch (RestClientResponseException ex) {
+            return Optional.empty();
+        }
+
+        if (body == null || body.game() == null) {
+            return Optional.empty();
+        }
+
+        SchemaResult result = body.game();
+
+        if (result.availableGameStats() == null || result.availableGameStats().achievements() == null) {
+            return Optional.of(List.of());
+        }
+
+        List<AchievementSchema> schemas = new ArrayList<>();
+
+        SchemaAvailableStats availableStats = result.availableGameStats();
+        List<SchemaRecord> achievements = availableStats.achievements();
+
+        achievements.forEach(achievement -> {
+            AchievementSchema schema = new AchievementSchema(
+                    achievement.name(),
+                    achievement.displayName(),
+                    achievement.description(),
+                    achievement.icon()
+            );
+
+            schemas.add(schema);
+        });
+
+        return Optional.of(schemas);
+    }
+
+    public Optional<List<PlayerAchievement>> getPlayerAchievements(String steamId64, String appId) {
+        PlayerAchievementResponse body;
+
+        try {
+            body = client.get()
+                    .uri(builder -> builder
+                            .path("/ISteamUserStats/GetPlayerAchievements/v1/")
+                            .queryParam("key", apiKey)
+                            .queryParam("steamid", steamId64)
+                            .queryParam("appid", appId)
+                            .build())
+                    .retrieve()
+                    .body(PlayerAchievementResponse.class);
+        } catch (RestClientResponseException ex) {
+            return Optional.empty();
+        }
+
+        if (body == null || body.playerstats() == null) {
+            return Optional.empty();
+        }
+
+        PlayerAchievementResult result = body.playerstats();
+
+        if (!result.success() || result.achievements() == null) {
+            return Optional.empty();
+        }
+
+        List<PlayerAchievement> achievements = new ArrayList<>();
+        result.achievements().forEach(achievement -> {
+            PlayerAchievement record = new PlayerAchievement(
+                    achievement.apiname(),
+                    achievement.achieved() != 0,
+                    achievement.unlocktime() == 0 ? null :
+                        Instant.ofEpochSecond(achievement.unlocktime()).atZone(ZoneId.systemDefault()).toLocalDateTime()
+            );
+            achievements.add(record);
+        });
+
+        return Optional.of(achievements);
+    }
+
 
     private record VanityUrlResponse(VanityUrlResult response) {}
 
@@ -120,5 +208,20 @@ public class SteamClient {
     private record VisibilityResult(List<CommunityVisibilityRecord> players) {}
 
     private record CommunityVisibilityRecord(String steamid, Integer communityvisibilitystate) {}
+
+    private record SchemaResponse(SchemaResult game) {}
+
+    private record SchemaResult(SchemaAvailableStats availableGameStats) {}
+
+    private record SchemaAvailableStats(List<SchemaRecord> achievements) {}
+
+    private record SchemaRecord(String name, String displayName, String description, String icon) {}
+
+    private record PlayerAchievementResponse(PlayerAchievementResult playerstats) {}
+
+    private record PlayerAchievementResult(boolean success, List<PlayerAchievementRecord> achievements) {}
+
+    private record PlayerAchievementRecord(String apiname, int achieved, long unlocktime) {}
+
 
 }
