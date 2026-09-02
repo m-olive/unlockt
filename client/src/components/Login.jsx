@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { getCsrfToken } from '../services/csrf';
+import Padlock from './Padlock';
 
 function Login() {
     const navigate = useNavigate();
@@ -59,26 +60,43 @@ function Login() {
     }
 
     return (
-        <>
-            <h4>Log into your account</h4>
-
-            <form onSubmit={handleSubmit}>
-                {errors.length > 0 && <ul>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>}
-
-                <div className="form-control">
-                    <label htmlFor="email-input">Email: </label>
-                    <input type="email" id="email-input" name="email" onChange={handleChange} value={credentials.email} autoFocus />
+        <div className="border rounded p-4 p-lg-5">
+            <div className="row align-items-center g-4">
+                <div className="col-lg-6">
+                    <h1 className="d-flex align-items-center gap-2">
+                        <Padlock unlocked size={44} className="text-warning" />
+                        unlockt
+                    </h1>
+                    <p className="lead mb-0">Welcome back. Your library is where you left it.</p>
                 </div>
 
-                <div className="form-control">
-                    <label htmlFor="password-input">Password: </label>
-                    <input type="password" id="password-input" name="password" onChange={handleChange} value={credentials.password} />
+                <div className="col-lg-6">
+                    <h4>Log into your account</h4>
+
+                    {errors.length > 0 && <ul className="text-danger">
+                        {errors.map((error, i) => <li key={i}>{error}</li>)}
+                    </ul>}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label htmlFor="email-input" className="form-label">Email</label>
+                            <input type="email" id="email-input" name="email" className="form-control" onChange={handleChange} value={credentials.email} autoFocus />
+                        </div>
+
+                        <div className="mb-3">
+                            <label htmlFor="password-input" className="form-label">Password</label>
+                            <input type="password" id="password-input" name="password" className="form-control" onChange={handleChange} value={credentials.password} />
+                        </div>
+
+                        <button type="submit" className="btn btn-primary w-100">Log in</button>
+                    </form>
+
+                    <p className="mt-3 mb-0">
+                        Need an account? <Link to="/register">Create one</Link>
+                    </p>
                 </div>
-                    <button type="submit">Log in!</button>
-            </form>
-        </>
+            </div>
+        </div>
     );
 }
 
