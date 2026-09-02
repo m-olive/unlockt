@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { findAll, STATUS_OPTIONS, doDelete } from '../services/library';
+import AuthContext from '../context/AuthContext';
 
 const SORT_OPTIONS = [
     { value: 'title', label: 'Title' },
@@ -21,6 +22,7 @@ function formatDate(value) {
 
 function Library() {
     const navigate = useNavigate();
+    const { setUser } = useContext(AuthContext);
 
     const [entries, setEntries] = useState([]);
     const [errors, setErrors] = useState([]);
@@ -42,6 +44,7 @@ function Library() {
             if (result.ok) {
                 setEntries(result.entries);
             } else if (result.status === 401) {
+                setUser(null);
                 navigate('/login');
                 return;
             } else {
@@ -57,7 +60,7 @@ function Library() {
         return () => {
             canceled = true;
         };
-    }, [filters, navigate]);
+    }, [filters, navigate, setUser]);
 
     function handleFilterChange(evt) {
         const { name, value } = evt.target;
