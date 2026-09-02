@@ -72,10 +72,12 @@ function Browse() {
             {games !== null && games.length === 0 &&
                 <p>No games match that title yet. Only games someone has imported from Steam show up here.</p>}
 
-            {games !== null && games.length > 0 && <ul className="list-unstyled">
-                {games.map(game => <li key={game.gameId} className="d-flex align-items-center gap-3 border rounded p-3 mb-3">
-                    {game.coverArtUrl && <img src={game.coverArtUrl} alt="" width={280} className="rounded" />}
-                    <div>
+            {games !== null && games.length > 0 && <ul className="list-unstyled row row-cols-1 row-cols-md-2 g-3">
+                {games.map(game => <li key={game.gameId} className="col">
+                    <div className="border rounded p-3 h-100">
+                        {game.coverArtUrl
+                            ? <img src={game.coverArtUrl} alt="" className="img-fluid rounded mb-2" />
+                            : <span className="text-muted">no cover art available</span>}
                         <h5 className="mb-1"><Link to={`/games/${game.gameId}`}>{game.title}</Link></h5>
                         {game.voteCount > 0
                             ? <p className="mb-0">

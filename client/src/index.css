@@ -1,3 +1,16 @@
 [data-bs-theme="dark"] .invert-on-dark {
     filter: invert(1);
 }
+
+[data-bs-theme="light"] .btn-outline-warning {
+    --bs-btn-color: var(--bs-warning-text-emphasis);
+    --bs-btn-border-color: var(--bs-warning-text-emphasis);
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--bs-warning-text-emphasis);
+    --bs-btn-hover-border-color: var(--bs-warning-text-emphasis);
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--bs-warning-text-emphasis);
+    --bs-btn-active-border-color: var(--bs-warning-text-emphasis);
+    --bs-btn-disabled-color: var(--bs-warning-text-emphasis);
+    --bs-btn-disabled-border-color: var(--bs-warning-text-emphasis);
+}
