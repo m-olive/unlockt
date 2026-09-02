@@ -82,7 +82,7 @@ function Library() {
 
     return (
         <>
-            <h4>Your library</h4>
+            <h3>Your library</h3>
             <p className="text-muted">{entries.length} {entries.length === 1 ? 'game' : 'games'}</p>
 
             {errors.length > 0 && <ul className="text-danger">
@@ -117,24 +117,26 @@ function Library() {
                   </>
                 : <p>Your library is empty. Add a game to get started.</p>)}
 
-            {!loading && entries.length > 0 && <ul className="list-unstyled">
-                {entries.map(entry => <li key={entry.id} className="border rounded p-2 mb-2">
-                    {entry.coverArtUrl
-                        ? <img src={entry.coverArtUrl} alt="" width={64} />
-                        : <span className="text-muted">no cover art available</span>}
-                    <h5><Link to={`/games/${entry.gameId}`}>{entry.title}</Link></h5>
-                    <p className="mb-1 text-muted">
-                        {entry.status}
-                        {entry.platform && <> &middot; {entry.platform}</>}
-                        {entry.genre && <> &middot; {entry.genre}</>}
-                    </p>
-                    <p className="mb-1">
-                        Your difficulty: {entry.difficultyRating ?? 'not rated'}
-                        {' '}&middot;{' '}
-                        Your rating: {entry.overallRating ?? 'not rated'}
-                    </p>
-                    <p className="mb-0 text-muted">Added {formatDate(entry.addedAt)}</p>
-                    <button type="button" onClick={() => handleDelete(entry.id)}>Delete</button>
+            {!loading && entries.length > 0 && <ul className="list-unstyled row row-cols-1 row-cols-md-2 g-3">
+                {entries.map(entry => <li key={entry.id} className="col">
+                    <div className="border rounded p-3 h-100">
+                        {entry.coverArtUrl
+                            ? <img src={entry.coverArtUrl} alt="" className="img-fluid rounded mb-2" />
+                            : <span className="text-muted">no cover art available</span>}
+                        <h5><Link to={`/games/${entry.gameId}`}>{entry.title}</Link></h5>
+                        <p className="mb-1 text-muted">
+                            {entry.status}
+                            {entry.platform && <> &middot; {entry.platform}</>}
+                            {entry.genre && <> &middot; {entry.genre}</>}
+                        </p>
+                        <p className="mb-1">
+                            Your difficulty: {entry.difficultyRating ?? 'not rated'}
+                            {' '}&middot;{' '}
+                            Your rating: {entry.overallRating ?? 'not rated'}
+                        </p>
+                        <p className="mb-2 text-muted">Added {formatDate(entry.addedAt)}</p>
+                        <button type="button" className="btn btn-outline-danger btn-sm" onClick={() => handleDelete(entry.id)}>Delete</button>
+                    </div>
                 </li>)}
             </ul>}
         </>

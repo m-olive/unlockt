@@ -69,7 +69,7 @@ function Login() {
 
                 <div className="form-control">
                     <label htmlFor="email-input">Email: </label>
-                    <input type="email" id="email-input" name="email" onChange={handleChange} value={credentials.email} />
+                    <input type="email" id="email-input" name="email" onChange={handleChange} value={credentials.email} autoFocus />
                 </div>
 
                 <div className="form-control">

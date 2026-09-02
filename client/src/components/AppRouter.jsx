@@ -1,4 +1,5 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Browse from './Browse';
 import GameDetail from './GameDetail';
 import Landing from './Landing';
 import Layout from './Layout';
@@ -47,6 +48,10 @@ const routes = [
                         element: <LinkSteam />,
                     },
                 ],
+            },
+            {
+                path: 'browse',
+                element: <Browse />
             },
             {
                 path: 'leaderboard',
