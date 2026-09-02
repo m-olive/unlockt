@@ -24,6 +24,12 @@ public interface LibraryEntryRepository extends JpaRepository<LibraryEntry, UUID
     @Query("select le from LibraryEntry le join fetch le.game where le.user.id = :userId and le.game.id = :gameId")
     Optional<LibraryEntry> findByUserIdAndGameId(@Param("userId") UUID userId, @Param("gameId") UUID gameId);
 
+    @Query("select new learn.unlockt.data.GameRatingRow(le.game.id, avg(le.difficultyRating), count(le.difficultyRating)) " +
+            "from LibraryEntry le " +
+            "where le.game.id in :gameIds and le.difficultyRating is not null " +
+            "group by le.game.id")
+    List<GameRatingRow> findRatingsByGameIds(@Param("gameIds") List<UUID> gameIds);
+
     @Query("select avg(le.difficultyRating) from LibraryEntry le where le.game.id = :gameId and le.difficultyRating is not null")
     Double findAverageDifficultyByGameId(@Param("gameId") UUID gameId);
 

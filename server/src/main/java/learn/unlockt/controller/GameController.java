@@ -1,5 +1,6 @@
 package learn.unlockt.controller;
 
+import learn.unlockt.domain.GameSearchView;
 import learn.unlockt.domain.GameService;
 import learn.unlockt.model.Game;
 import learn.unlockt.model.LibraryEntry;
@@ -10,8 +11,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,6 +24,11 @@ public class GameController {
 
     public GameController(GameService service) {
         this.service = service;
+    }
+
+    @GetMapping
+    public List<GameSearchView> search(@RequestParam(required = false) String q) {
+        return service.search(q);
     }
 
     @GetMapping("/{gameId}")

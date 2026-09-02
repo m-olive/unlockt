@@ -1,5 +1,6 @@
 package learn.unlockt.controller;
 
+import learn.unlockt.data.AchievementLeaderboardRow;
 import learn.unlockt.data.LeaderboardRow;
 import learn.unlockt.domain.LeaderboardService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,5 +21,10 @@ public class LeaderboardController {
     @GetMapping
     public List<LeaderboardRow> getLeaderboard() {
         return service.findLeaderboard();
+    }
+
+    @GetMapping("/achievements")
+    public List<AchievementLeaderboardRow> getAchievementLeaderboard() {
+        return service.findAchievementLeaderboard();
     }
 }

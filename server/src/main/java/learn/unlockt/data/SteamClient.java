@@ -84,26 +84,49 @@ public class SteamClient {
     }
 
     public Optional<Integer> getCommunityVisibility(String steamId64) {
-        VisibilityResponse body = client.get()
+        SummaryResponse body = client.get()
                 .uri(builder -> builder
                         .path("/ISteamUser/GetPlayerSummaries/v2/")
                         .queryParam("key", apiKey)
                         .queryParam("steamids", steamId64)
                         .build())
                 .retrieve()
-                .body(VisibilityResponse.class);
+                .body(SummaryResponse.class);
 
         if (body == null || body.response() == null) {
             return Optional.empty();
         }
 
-        VisibilityResult result = body.response();
+        SummaryResult result = body.response();
 
         if (result.players() == null || result.players().isEmpty()) {
             return Optional.empty();
         }
 
         return Optional.ofNullable(result.players().getFirst().communityvisibilitystate());
+    }
+
+    public Optional<String> getAvatarUrl(String steamId64) {
+        SummaryResponse body = client.get()
+                .uri(builder -> builder
+                        .path("/ISteamUser/GetPlayerSummaries/v2/")
+                        .queryParam("key", apiKey)
+                        .queryParam("steamids", steamId64)
+                        .build())
+                .retrieve()
+                .body(SummaryResponse.class);
+
+        if (body == null || body.response() == null) {
+            return Optional.empty();
+        }
+
+        SummaryResult result = body.response();
+
+        if (result.players() == null || result.players().isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(result.players().getFirst().avatarfull());
     }
 
     public Optional<List<AchievementSchema>> getGameAchievementSchema(String appId) {
@@ -203,11 +226,11 @@ public class SteamClient {
 
     private record GameRecord(String appid, String name, boolean has_community_visible_stats) {}
 
-    private record VisibilityResponse(VisibilityResult response) {}
+    private record SummaryResponse(SummaryResult response) {}
 
-    private record VisibilityResult(List<CommunityVisibilityRecord> players) {}
+    private record SummaryResult(List<SummaryPlayer> players) {}
 
-    private record CommunityVisibilityRecord(String steamid, Integer communityvisibilitystate) {}
+    private record SummaryPlayer(String steamid, Integer communityvisibilitystate, String avatarfull) {}
 
     private record SchemaResponse(SchemaResult game) {}
 

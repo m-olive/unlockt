@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -77,10 +78,16 @@ public class AuthController {
     }
 
     private Map<String, Object> toPayload(User user) {
-        return Map.of(
-                "id", user.getId().toString(),
-                "email", user.getEmail(),
-                "displayName", user.getDisplayName());
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("id", user.getId().toString());
+        payload.put("email", user.getEmail());
+        payload.put("displayName", user.getDisplayName());
+        payload.put("steamId64", user.getSteamId64());
+        payload.put("lastSyncedAt", user.getLastSyncedAt());
+        payload.put("avatar", user.getAvatar());
+        payload.put("steamAvatarUrl", user.getSteamAvatarUrl());
+
+        return payload;
     }
 
     public record Credentials(String email, String password) {}
