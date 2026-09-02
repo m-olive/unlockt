@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class GameService {
-    private static final int BROWSE_SAMPLE_SIZE = 25;
+    private static final int BROWSE_SAMPLE_SIZE = 24;
 
     private final GameRepository repository;
     private final LibraryEntryRepository libraryEntryRepository;
