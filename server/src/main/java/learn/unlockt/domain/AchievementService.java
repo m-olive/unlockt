@@ -89,10 +89,16 @@ public class AchievementService {
                 userAchievementRepository.findByUserIdAndGameId(userId, gameId).stream()
                   .collect(Collectors.toMap(ua -> ua.getAchievement().getId(), ua -> ua));
 
+        Map<UUID, AchievementRatingRow> ratings = achievements.isEmpty() ? Map.of() :
+                userAchievementRepository.findRatingsByAchievementIds(
+                        achievements.stream().map(Achievement::getId).toList()).stream()
+                  .collect(Collectors.toMap(AchievementRatingRow::achievementId, row -> row));
+
         List<AchievementView> views = new ArrayList<>();
 
         achievements.forEach(achievement -> {
             UserAchievement userAchievement = overlay.get(achievement.getId());
+            AchievementRatingRow rating = ratings.get(achievement.getId());
 
             AchievementView view = new AchievementView(
                     achievement.getId(),
@@ -101,7 +107,9 @@ public class AchievementService {
                     achievement.getIconUrl(),
                     userAchievement != null && userAchievement.isUnlocked(),
                     userAchievement == null ? null : userAchievement.getUnlockedAt(),
-                    userAchievement == null ? null : userAchievement.getDifficultyRating());
+                    userAchievement == null ? null : userAchievement.getDifficultyRating(),
+                    rating == null ? null : rating.averageDifficulty(),
+                    rating == null ? 0 : rating.voteCount());
 
             views.add(view);
         });
@@ -146,6 +154,11 @@ public class AchievementService {
 
         UserAchievement saved = userAchievementRepository.save(userAchievement);
 
+        AchievementRatingRow rating = userAchievementRepository
+                .findRatingsByAchievementIds(List.of(achievementId)).stream()
+                .findFirst()
+                .orElse(null);
+
         AchievementView view = new AchievementView(
                 achievement.getId(),
                 achievement.getName(),
@@ -153,7 +166,9 @@ public class AchievementService {
                 achievement.getIconUrl(),
                 saved.isUnlocked(),
                 saved.getUnlockedAt(),
-                saved.getDifficultyRating());
+                saved.getDifficultyRating(),
+                rating == null ? null : rating.averageDifficulty(),
+                rating == null ? 0 : rating.voteCount());
 
         result.setPayload(view);
 

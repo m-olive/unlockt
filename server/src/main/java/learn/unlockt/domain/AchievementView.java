@@ -10,5 +10,7 @@ public record AchievementView(
     String iconUrl,
     boolean unlocked,
     LocalDateTime unlockedAt,
-    Integer difficultyRating
+    Integer difficultyRating,
+    Double communityAverageDifficulty,
+    long communityVoteCount
 ) {}
