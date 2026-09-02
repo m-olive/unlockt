@@ -62,6 +62,7 @@ public class SteamService {
         }
 
         user.get().setSteamId64(steamId64);
+        client.getAvatarUrl(steamId64).ifPresent(user.get()::setSteamAvatarUrl);
         userRepository.save(user.get());
 
         result.setPayload(steamId64);
@@ -82,6 +83,10 @@ public class SteamService {
         if (user.getSteamId64() == null) {
             result.addMessage("You must link your Steam account before importing your library.", ResultType.INVALID);
             return result;
+        }
+
+        if (user.getSteamAvatarUrl() == null) {
+            client.getAvatarUrl(user.getSteamId64()).ifPresent(user::setSteamAvatarUrl);
         }
 
         Optional<List<OwnedGame>> ownedGames = client.getOwnedGames(user.getSteamId64());

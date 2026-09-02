@@ -45,6 +45,12 @@ public class User {
     @Column(name = "steam_id64")
     private String steamId64;
 
+    @Column(name = "avatar", length = 32)
+    private String avatar;
+
+    @Column(name = "steam_avatar_url", length = 500)
+    private String steamAvatarUrl;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "sync_status", nullable = false)
     private SyncStatus syncStatus = SyncStatus.IDLE;
@@ -113,6 +119,22 @@ public class User {
 
     public void setSteamId64(String steamId64) {
         this.steamId64 = steamId64;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getSteamAvatarUrl() {
+        return steamAvatarUrl;
+    }
+
+    public void setSteamAvatarUrl(String steamAvatarUrl) {
+        this.steamAvatarUrl = steamAvatarUrl;
     }
 
     public SyncStatus getSyncStatus() {

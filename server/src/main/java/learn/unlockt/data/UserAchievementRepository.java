@@ -17,4 +17,15 @@ public interface UserAchievementRepository extends JpaRepository<UserAchievement
 
     @Query("select ua from UserAchievement ua join fetch ua.achievement where ua.user.id = :userId and ua.achievement.game.id = :gameId")
     List<UserAchievement> findByUserIdAndGameId(@Param("userId") UUID userId, @Param("gameId") UUID gameId);
+
+    @Query("select new learn.unlockt.data.AchievementLeaderboardRow(a.id, g.id, a.name, a.iconUrl, g.title, " +
+            "avg(ua.difficultyRating), count(ua.difficultyRating)) " +
+            "from UserAchievement ua " +
+            "join ua.achievement a " +
+            "join a.game g " +
+            "where ua.difficultyRating is not null " +
+            "group by a.id, g.id, a.name, a.iconUrl, g.title " +
+            "having count(ua.difficultyRating) >= :minVotes " +
+            "order by avg(ua.difficultyRating) desc, count(ua.difficultyRating) desc, a.name asc")
+    List<AchievementLeaderboardRow> findAchievementLeaderboard(@Param("minVotes") long minVotes);
 }
