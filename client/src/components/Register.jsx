@@ -73,7 +73,7 @@ function Register() {
 
                 <div className="form-control">
                     <label htmlFor="email-input">Email: </label>
-                    <input type="email" id="email-input" name="email" onChange={handleChange} value={form.email} />
+                    <input type="email" id="email-input" name="email" onChange={handleChange} value={form.email} autoFocus />
                 </div>
 
                 <div className="form-control">

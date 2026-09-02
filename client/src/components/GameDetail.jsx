@@ -6,6 +6,7 @@ import { STATUS_OPTIONS, update } from '../services/library';
 import { findByGameId, rate } from '../services/achievements';
 import AuthContext from '../context/AuthContext';
 import StarRating from './StarRating';
+import Padlock from './Padlock';
 
 function GameDetail() {
 
@@ -142,70 +143,84 @@ function GameDetail() {
 
     return (
         <>
-            {initialized && user && 
-                <Link to="/library">Back to library</Link>}
+            {initialized && user &&
+                <div className="d-flex justify-content-end mb-3">
+                    <Link to="/library">Back to library</Link>
+                </div>}
 
-            {game.coverArtUrl
-                ? <img src={game.coverArtUrl} alt="" width={96} />
-                : <span className="text-muted">no cover art available</span>}
+            <div className="row g-4 mb-4">
+                <div className="col-md-6">
+                    {game.coverArtUrl
+                        ? <img src={game.coverArtUrl} alt="" className="img-fluid rounded" />
+                        : <span className="text-muted">no cover art available</span>}
+                </div>
 
-            <h4>{game.title}</h4>
-            <p className="text-muted">
-                {game.genre ?? 'Unknown genre'}
-                {game.platform && <> &middot; {game.platform}</>}
-                {game.owned && <> &middot; <span className="badge text-bg-secondary">Owned</span></>}
-            </p>
+                <div className="col-md-6">
+                    <h4>{game.title}</h4>
+                    <p className="text-muted">
+                        {game.genre ?? 'Unknown genre'}
+                        {game.platform && <> &middot; {game.platform}</>}
+                        {game.owned && <> &middot; <span className="badge text-bg-secondary">Owned</span></>}
+                    </p>
 
-            <p className="mb-1">
-                {game.overallRatingCount > 0
-                    ? <>Community overall rating {game.averageOverallRating.toFixed(1)} based on {game.overallRatingCount} {game.overallRatingCount === 1 ? 'rating' : 'ratings'}</>
-                    : <span className="text-muted">No community overall rating yet</span>}
-            </p>
+                    <p className="mb-1">
+                        {game.overallRatingCount > 0
+                            ? <>Community overall rating {game.averageOverallRating.toFixed(1)} based on {game.overallRatingCount} {game.overallRatingCount === 1 ? 'rating' : 'ratings'}</>
+                            : <span className="text-muted">No community overall rating yet</span>}
+                    </p>
 
-            <p className="mb-1">
-                {game.difficultyRatingCount > 0
-                    ? <>Community difficulty rating {game.averageDifficulty.toFixed(1)} based on {game.difficultyRatingCount} {game.difficultyRatingCount === 1 ? 'rating' : 'ratings'}</>
-                    : <span className="text-muted">No community difficulty rating yet</span>}
-            </p>
+                    <p className="mb-1">
+                        {game.difficultyRatingCount > 0
+                            ? <>Community difficulty rating {game.averageDifficulty.toFixed(1)} based on {game.difficultyRatingCount} {game.difficultyRatingCount === 1 ? 'rating' : 'ratings'}</>
+                            : <span className="text-muted">No community difficulty rating yet</span>}
+                    </p>
+                </div>
+            </div>
 
             {form && <>
-                <h5>Your entry</h5>
-                    <form onSubmit={handleSubmit}>
-                        {saveErrors.length > 0 && <ul className="text-danger">
-                            {saveErrors.map((error, i) => <li key={i}>{error}</li>)}
-                        </ul>}
+                <h5 className="mt-4">Your entry</h5>
+                <form onSubmit={handleSubmit} className="mb-4">
+                    {saveErrors.length > 0 && <ul className="text-danger">
+                        {saveErrors.map((error, i) => <li key={i}>{error}</li>)}
+                    </ul>}
 
-                        <div className="form-control">
-                            <label htmlFor="status-input">Status:</label>
-                            <select id="status-input" className="mb-1" value={form.status} onChange={evt => {
-                                setForm(f => ({ ...f, status: evt.target.value }))
-                            }}>
-                                {STATUS_OPTIONS.map(o => 
-                                <option key={o.value} value={o.value}>{o.label}</option>
-                                )}
-                            </select>
-                        </div>
-                        <div className="form-control">
-                            <label htmlFor="rating-input">Your overall rating:</label>
-                            <StarRating value={form.overallRating} onChange={v => {
-                                setForm(f => ({...f, overallRating: v}))
-                            }} />
-                        </div>
-                        <div className="form-control">
-                            <label htmlFor="difficulty-input">Your difficulty rating:</label>
-                            <StarRating value={form.difficultyRating} onChange={v => {
-                                setForm(f => ({...f, difficultyRating: v}))
-                            }} />
-                        </div>
-                        <label htmlFor="notes-input">Notes:</label>
-                        <textarea id="notes-input" value={form.notes} className="mb-0" onChange={evt => {
+                    <div className="mb-3">
+                        <label htmlFor="status-input" className="form-label">Status</label>
+                        <select id="status-input" className="form-select" value={form.status} onChange={evt => {
+                            setForm(f => ({ ...f, status: evt.target.value }))
+                        }}>
+                            {STATUS_OPTIONS.map(o =>
+                            <option key={o.value} value={o.value}>{o.label}</option>
+                            )}
+                        </select>
+                    </div>
+
+                    <div className="mb-3">
+                        <label className="form-label d-block">Your overall rating</label>
+                        <StarRating value={form.overallRating} onChange={v => {
+                            setForm(f => ({...f, overallRating: v}))
+                        }} />
+                    </div>
+
+                    <div className="mb-3">
+                        <label className="form-label d-block">Your difficulty rating</label>
+                        <StarRating value={form.difficultyRating} onChange={v => {
+                            setForm(f => ({...f, difficultyRating: v}))
+                        }} />
+                    </div>
+
+                    <div className="mb-3">
+                        <label htmlFor="notes-input" className="form-label">Notes</label>
+                        <textarea id="notes-input" className="form-control" rows={3} value={form.notes} onChange={evt => {
                             setForm(f => ({ ...f, notes: evt.target.value}))
                         }}/>
-                        <button type="submit">Save</button>
-                    </form>
+                    </div>
+
+                    <button type="submit" className="btn btn-primary">Save</button>
+                </form>
             </>}
 
-            <h5>Achievements</h5>
+            <h5 className="mt-4">Achievements</h5>
 
             {achievementErrors.length > 0 && <ul className="text-danger">
                 {achievementErrors.map((error, i) => <li key={i}>{error}</li>)}
@@ -221,7 +236,7 @@ function GameDetail() {
                             {initialized && user && <> &middot; you&apos;ve rated {achievements.filter(a => a.difficultyRating !== null).length}</>}
                         </p>
 
-                        <select className="form-select mb-2" value={achievementFilter} onChange={evt => {
+                        <select className="form-select w-auto mb-3" value={achievementFilter} onChange={evt => {
                             setAchievementFilter(evt.target.value)
                         }}>
                             <option value="ALL">All</option>
@@ -229,21 +244,25 @@ function GameDetail() {
                             <option value="LOCKED">Locked</option>
                         </select>
 
-                        <ul className="list-unstyled">
+                        <ul className="list-unstyled row row-cols-1 row-cols-md-2 g-3">
                             {visibleAchievements.map(a => (
-                                <li key={a.achievementId} className="mb-2">
-                                    {a.iconUrl && <img src={a.iconUrl} alt="" width={48} />}
-                                    <strong>{a.name}</strong>
-                                    {a.description && <p className="mb-0 text-muted">{a.description}</p>}
-                                    <p className="mb-0">
-                                        {a.unlocked
-                                            ? <>Unlocked {new Date(a.unlockedAt).toLocaleDateString()}</>
-                                            : <span className="text-muted">Locked</span>}
-                                    </p>
-                                    {initialized && user &&
-                                        <StarRating value={a.difficultyRating} onChange={v => {
-                                            handleRate(a.achievementId, v)
-                                        }} />}
+                                <li key={a.achievementId} className="col">
+                                    <div className="d-flex gap-3 border rounded p-3 h-100">
+                                        {a.iconUrl && <img src={a.iconUrl} alt="" width={48} height={48} className="rounded" />}
+                                        <div>
+                                            <strong>{a.name}</strong>
+                                            {a.description && <p className="mb-0 text-muted">{a.description}</p>}
+                                            <p className="mb-0 d-flex align-items-center gap-2">
+                                                {a.unlocked
+                                                    ? <><Padlock unlocked className="text-success" /> Unlocked {new Date(a.unlockedAt).toLocaleDateString()}</>
+                                                    : <span className="text-muted"><Padlock /> Locked</span>}
+                                            </p>
+                                            {initialized && user &&
+                                                <StarRating value={a.difficultyRating} onChange={v => {
+                                                    handleRate(a.achievementId, v)
+                                                }} />}
+                                        </div>
+                                    </div>
                                 </li>
                             ))}
                         </ul>
