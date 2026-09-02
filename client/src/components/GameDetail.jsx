@@ -8,6 +8,9 @@ import AuthContext from '../context/AuthContext';
 import StarRating from './StarRating';
 import Padlock from './Padlock';
 
+const MISMATCH_THRESHOLD = 1.5;
+const COMMUNITY_MIN_VOTES = 2;
+
 function GameDetail() {
 
     const { gameId } = useParams();
@@ -257,10 +260,22 @@ function GameDetail() {
                                                     ? <><Padlock unlocked className="text-success" /> Unlocked {new Date(a.unlockedAt).toLocaleDateString()}</>
                                                     : <span className="text-muted"><Padlock /> Locked</span>}
                                             </p>
+                                            <p className="mb-0">
+                                                {a.communityVoteCount > 0
+                                                    ? <>Community difficulty {a.communityAverageDifficulty.toFixed(1)} from {a.communityVoteCount} {a.communityVoteCount === 1 ? 'rating' : 'ratings'}</>
+                                                    : <span className="text-muted">No community rating yet</span>}
+                                            </p>
                                             {initialized && user &&
                                                 <StarRating value={a.difficultyRating} onChange={v => {
                                                     handleRate(a.achievementId, v)
                                                 }} />}
+                                            {initialized && user
+                                                && a.difficultyRating !== null
+                                                && a.communityVoteCount >= COMMUNITY_MIN_VOTES
+                                                && Math.abs(a.difficultyRating - a.communityAverageDifficulty) >= MISMATCH_THRESHOLD
+                                                && <p className="mb-0 text-warning-emphasis">
+                                                    You rated this {a.difficultyRating}, the community says {a.communityAverageDifficulty.toFixed(1)}
+                                                </p>}
                                         </div>
                                     </div>
                                 </li>
