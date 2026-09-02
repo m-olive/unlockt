@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../services/csrf';
+import Padlock from './Padlock';
 
 function Register() {
     const navigate = useNavigate();
@@ -63,36 +64,57 @@ function Register() {
     }
 
     return (
-        <>
-            <h4>Create an account</h4>
-
-            <form onSubmit={handleSubmit}>
-                {errors.length > 0 && <ul>
-                    {errors.map((error, i) => <li key={i}>{error}</li>)}
-                </ul>}
-
-                <div className="form-control">
-                    <label htmlFor="email-input">Email: </label>
-                    <input type="email" id="email-input" name="email" onChange={handleChange} value={form.email} autoFocus />
+        <div className="border rounded p-4 p-lg-5">
+            <div className="row align-items-center g-4">
+                <div className="col-lg-6">
+                    <h1 className="d-flex align-items-center gap-2">
+                        <Padlock unlocked size={44} className="text-warning" />
+                        unlockt
+                    </h1>
+                    <p className="lead">Track your backlog by how hard it actually is.</p>
+                    <p className="mb-0">
+                        Link your Steam account and your whole library imports in one pass. Rate what you
+                        play on two separate axes: how much you liked it, and how hard it was.
+                    </p>
                 </div>
 
-                <div className="form-control">
-                    <label htmlFor="display-name-input">Display name: </label>
-                    <input type="text" id="display-name-input" name="displayName" onChange={handleChange} value={form.displayName} />
-                </div>
+                <div className="col-lg-6">
+                    <h4>Create an account</h4>
 
-                <div className="form-control">
-                    <label htmlFor="password-input">Password: </label>
-                    <input type="password" id="password-input" name="password" onChange={handleChange} value={form.password} />
-                </div>
+                    {errors.length > 0 && <ul className="text-danger">
+                        {errors.map((error, i) => <li key={i}>{error}</li>)}
+                    </ul>}
 
-                <div className="form-control">
-                    <label htmlFor="confirm-password-input">Confirm password: </label>
-                    <input type="password" id="confirm-password-input" name="confirmPassword" onChange={handleChange} value={form.confirmPassword} />
+                    <form onSubmit={handleSubmit}>
+                        <div className="mb-3">
+                            <label htmlFor="email-input" className="form-label">Email</label>
+                            <input type="email" id="email-input" name="email" className="form-control" onChange={handleChange} value={form.email} autoFocus />
+                        </div>
+
+                        <div className="mb-3">
+                            <label htmlFor="display-name-input" className="form-label">Display name</label>
+                            <input type="text" id="display-name-input" name="displayName" className="form-control" onChange={handleChange} value={form.displayName} />
+                        </div>
+
+                        <div className="mb-3">
+                            <label htmlFor="password-input" className="form-label">Password</label>
+                            <input type="password" id="password-input" name="password" className="form-control" onChange={handleChange} value={form.password} />
+                        </div>
+
+                        <div className="mb-3">
+                            <label htmlFor="confirm-password-input" className="form-label">Confirm password</label>
+                            <input type="password" id="confirm-password-input" name="confirmPassword" className="form-control" onChange={handleChange} value={form.confirmPassword} />
+                        </div>
+
+                        <button type="submit" className="btn btn-primary w-100">Create account</button>
+                    </form>
+
+                    <p className="mt-3 mb-0">
+                        Already have an account? <Link to="/login">Log in</Link>
+                    </p>
                 </div>
-                    <button type="submit">Register!</button>
-            </form>
-        </>
+            </div>
+        </div>
     );
 }
 
