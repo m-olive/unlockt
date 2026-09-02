@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import learn.unlockt.model.User;
+import learn.unlockt.domain.UserService;
 import learn.unlockt.security.AppUserDetails;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +30,12 @@ import java.util.Map;
 public class AuthController {
     private final AuthenticationManager authManager;
     private final SecurityContextRepository securityContextRepository;
+    private final UserService userService;
 
-    public AuthController(AuthenticationManager authManager, SecurityContextRepository securityContextRepository) {
+    public AuthController(AuthenticationManager authManager, SecurityContextRepository securityContextRepository, UserService userService) {
         this.authManager = authManager;
         this.securityContextRepository = securityContextRepository;
+        this.userService = userService;
     }
 
     @PostMapping("/login")
@@ -74,7 +77,12 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        return ResponseEntity.ok(toPayload(details.getUser()));
+        User user = userService.findById(details.getUser().getId());
+        if(user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        return ResponseEntity.ok(toPayload(user));
     }
 
     private Map<String, Object> toPayload(User user) {
