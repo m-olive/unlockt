@@ -11,6 +11,8 @@ CREATE TABLE `user` (
     oauth_id        VARCHAR(255) NULL,
     display_name    VARCHAR(100) NOT NULL,
     steam_id64      VARCHAR(20)  NULL,
+    avatar          VARCHAR(32)  NULL,
+    steam_avatar_url VARCHAR(500) NULL,
     sync_status     VARCHAR(20)  NOT NULL DEFAULT 'IDLE',
     last_synced_at  TIMESTAMP    NULL,
     created_at      TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
