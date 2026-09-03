@@ -1,0 +1,52 @@
+services:
+  database:
+    image: mariadb:11.2
+    container_name: local_mariadb
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: dbeaver
+      MARIADB_DATABASE: unlockt 
+      MARIADB_USER: dbeaver
+      MARIADB_PASSWORD: dbeaver
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./sql/unlockt-schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./sql/unlockt-seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 20s
+
+  frontend:
+    image: unlockt-frontend:latest
+    container_name: react_frontend
+    network_mode: host
+    # ports:
+    #   - "80:80"
+    depends_on:
+      - backend 
+
+  backend:
+    image: unlockt-backend:latest
+    container_name: spring_backend
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    network_mode: host
+    restart: on-failure
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      - DB_URL=jdbc:mariadb://localhost:3306/unlockt
+      - DB_USERNAME=dbeaver
+      - DB_PASSWORD=dbeaver
+      - STEAM_API_KEY=${STEAM_API_KEY:?set STEAM_API_KEY in .env}
+
+volumes:
+  mariadb_data:
+

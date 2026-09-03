@@ -6,6 +6,9 @@ UPDATE game SET cover_art_url = 'https://cdn.cloudflare.steamstatic.com/steam/ap
     WHERE steam_appid = '504230' AND cover_art_url LIKE 'http://example.com/%';
 
 INSERT IGNORE INTO game (id, title, cover_art_url, platform, genre, steam_appid) VALUES
+('a1d9c694-9ffb-11f1-92fd-005056c00001', 'Hollow Knight',                 'https://cdn.cloudflare.steamstatic.com/steam/apps/367520/header.jpg',  'PC', 'Metroidvania', '367520'),
+('a1d9c961-9ffb-11f1-92fd-005056c00001', 'Celeste',                       'https://cdn.cloudflare.steamstatic.com/steam/apps/504230/header.jpg',  'PC', 'Platformer',   '504230'),
+('b0000000-0000-4000-8000-000000000014', 'Nine Sols',                     'https://cdn.cloudflare.steamstatic.com/steam/apps/1809540/header.jpg', 'PC', 'Metroidvania', '1809540'),
 ('b0000000-0000-4000-8000-000000000003', 'Dark Souls III',                'https://cdn.cloudflare.steamstatic.com/steam/apps/374320/header.jpg',  'PC', 'Action RPG',   '374320'),
 ('b0000000-0000-4000-8000-000000000004', 'Sekiro: Shadows Die Twice',     'https://cdn.cloudflare.steamstatic.com/steam/apps/814380/header.jpg',  'PC', 'Action RPG',   '814380'),
 ('b0000000-0000-4000-8000-000000000005', 'Elden Ring',                    'https://cdn.cloudflare.steamstatic.com/steam/apps/1245620/header.jpg', 'PC', 'Action RPG',   '1245620'),

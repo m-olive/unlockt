@@ -37,6 +37,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/games/*/achievements").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/leaderboard").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/leaderboard/achievements").permitAll()
+                        .requestMatchers("/api/steam/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/games").permitAll()
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))

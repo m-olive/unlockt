@@ -2,18 +2,37 @@ import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { findAll, findAchievements } from '../services/leaderboard';
+import { search } from '../services/games';
 import Padlock from './Padlock';
+
+const HERO_GAMES = [
+    { title: 'Hollow Knight', appId: '367520' },
+    { title: 'Sekiro: Shadows Die Twice', appId: '814380' },
+    { title: 'Nine Sols', appId: '1809540' },
+    { title: 'Elden Ring', appId: '1245620' },
+    { title: 'Cuphead', appId: '268910' },
+    { title: 'Celeste', appId: '504230' }
+];
+
+function coverArtUrl(appId) {
+    return `https://cdn.cloudflare.steamstatic.com/steam/apps/${appId}/header.jpg`;
+}
 
 function Landing() {
     const { user, initialized } = useContext(AuthContext);
     const [games, setGames] = useState([]);
     const [achievements, setAchievements] = useState([]);
+    const [heroIds, setHeroIds] = useState({});
 
     useEffect(() => {
         let canceled = false;
 
         async function load() {
-            const [gameResult, achievementResult] = await Promise.all([findAll(), findAchievements()]);
+            const [gameResult, achievementResult, ...heroResults] = await Promise.all([
+                findAll(),
+                findAchievements(),
+                ...HERO_GAMES.map(hero => search(hero.title))
+            ]);
             if (canceled) {
                 return;
             }
@@ -25,6 +44,21 @@ function Landing() {
             if (achievementResult.ok) {
                 setAchievements(achievementResult.achievements);
             }
+
+            const ids = {};
+            heroResults.forEach((result, index) => {
+                if (!result.ok) {
+                    return;
+                }
+
+                const hero = HERO_GAMES[index];
+                const wanted = hero.title.toLowerCase();
+                const match = result.games.find(game => game.title.toLowerCase() === wanted) || result.games[0];
+                if (match) {
+                    ids[hero.appId] = match.gameId;
+                }
+            });
+            setHeroIds(ids);
         }
 
         load();
@@ -70,13 +104,21 @@ function Landing() {
 
                     <div className="col-lg-6">
                         <div className="row row-cols-2 g-2">
-                            {games.slice(0, 6).map(game => (
-                                <div key={game.gameId} className="col">
-                                    <Link to={`/games/${game.gameId}`}>
-                                        <img src={game.coverArtUrl} alt={game.title} className="img-fluid rounded" />
-                                    </Link>
-                                </div>
-                            ))}
+                            {HERO_GAMES.map(hero => {
+                                const gameId = heroIds[hero.appId];
+                                const cover = <img
+                                    src={coverArtUrl(hero.appId)}
+                                    alt={hero.title}
+                                    className="img-fluid rounded" />;
+
+                                return (
+                                    <div key={hero.appId} className="col">
+                                        {gameId
+                                            ? <Link to={`/games/${gameId}`}>{cover}</Link>
+                                            : cover}
+                                    </div>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
