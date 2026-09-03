@@ -8,9 +8,9 @@
     <script>
       try {
         document.documentElement.setAttribute('data-bs-theme',
-          localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
+          localStorage.getItem('theme') === 'light' ? 'light' : 'dark');
       } catch {
-        document.documentElement.setAttribute('data-bs-theme', 'light');
+        document.documentElement.setAttribute('data-bs-theme', 'dark');
       }
     </script>
   </head>
