@@ -23,6 +23,7 @@ services:
 
   frontend:
     image: unlockt-frontend:latest
+    build: ./client
     container_name: react_frontend
     network_mode: host
     # ports:
@@ -32,6 +33,7 @@ services:
 
   backend:
     image: unlockt-backend:latest
+    build: ./server
     container_name: spring_backend
     dns:
       - 8.8.8.8
