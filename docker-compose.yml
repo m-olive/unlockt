@@ -47,6 +47,20 @@ services:
       - DB_PASSWORD=dbeaver
       - STEAM_API_KEY=${STEAM_API_KEY:?set STEAM_API_KEY in .env}
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy_proxy
+    restart: unless-stopped
+    network_mode: host
+    depends_on:
+      - frontend
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
 volumes:
   mariadb_data:
+  caddy_data:
+  caddy_config:
 

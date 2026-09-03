@@ -1,0 +1,7 @@
+unlockt.m-olive.dev {
+    reverse_proxy localhost:8081
+}
+
+m-olive.dev, www.m-olive.dev {
+    redir https://unlockt.m-olive.dev{uri} permanent
+}
