@@ -23,7 +23,7 @@ import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, OAuth2AppUserService oAuth2AppUserService) throws Exception {
         CsrfTokenRequestAttributeHandler csrfHandler = new CsrfTokenRequestAttributeHandler();
         csrfHandler.setCsrfRequestAttributeName(null);
 
@@ -38,8 +38,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/leaderboard").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/leaderboard/achievements").permitAll()
                         .requestMatchers("/api/steam/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/games").permitAll()
+                        .requestMatchers("/oauth2/**", "/login/oauth2/**").permitAll()
                         .anyRequest().authenticated()
+                )
+                .oauth2Login(oauth -> oauth
+                        .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2AppUserService))
+                        .defaultSuccessUrl("/", true)
+                        .failureUrl("/login?error")
                 )
                 .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
