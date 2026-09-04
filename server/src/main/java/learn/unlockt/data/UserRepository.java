@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     boolean existsByEmail(String email);
 
     Optional<User> findBySteamId64(String steamId64);
+
+    Optional<User> findByOauthProviderAndOauthId(String oauthProvider, String oauthId);
 }
