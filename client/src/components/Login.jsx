@@ -1,11 +1,12 @@
 import { useContext, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import AuthContext from '../context/AuthContext';
 import { getCsrfToken } from '../services/csrf';
 import Padlock from './Padlock';
 
 function Login() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const { setUser } = useContext(AuthContext);
 
     const [credentials, setCredentials] = useState({
@@ -13,7 +14,11 @@ function Login() {
         password: "",
     });
 
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState(
+        searchParams.has('error')
+            ? ["That sign-in didn't work. Try again, or log in with your password."]
+            : []
+    );
 
     function handleChange(evt) {
         setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
@@ -46,7 +51,7 @@ function Login() {
                     return;
                 }
                 setUser(payload);
-                navigate('/');
+                navigate('/library');
             } else if (response.status === 401) {
                 setErrors(['Login failed']);
             } else if (response.status === 403) {
@@ -90,6 +95,17 @@ function Login() {
 
                         <button type="submit" className="btn btn-primary w-100">Log in</button>
                     </form>
+
+                    <div className="d-flex align-items-center gap-2 my-3">
+                        <hr className="flex-grow-1" />
+                        <span className="text-body-secondary">or</span>
+                        <hr className="flex-grow-1" />
+                    </div>
+
+                    <div className="d-grid gap-2">
+                        <a className="btn btn-outline-primary" href="/oauth2/authorization/github">Continue with GitHub</a>
+                        <a className="btn btn-outline-primary" href="/oauth2/authorization/google">Continue with Google</a>
+                    </div>
 
                     <p className="mt-3 mb-0">
                         Need an account? <Link to="/register">Create one</Link>

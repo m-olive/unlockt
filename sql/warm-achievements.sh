@@ -2,7 +2,7 @@
 set -euo pipefail
 
 BASE_URL="${1:-http://localhost:8080}"
-TITLES=("Hollow Knight" "Cuphead")
+TITLES=("Hollow Knight" "Cuphead" "Elden Ring" "Nine Sols" "Sekiro: Shadows Die Twice" "Celeste")
 
 for title in "${TITLES[@]}"; do
     game_id=$(curl -fsS --get --data-urlencode "q=${title}" "${BASE_URL}/api/games" \

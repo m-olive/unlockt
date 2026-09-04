@@ -109,6 +109,17 @@ function Register() {
                         <button type="submit" className="btn btn-primary w-100">Create account</button>
                     </form>
 
+                    <div className="d-flex align-items-center gap-2 my-3">
+                        <hr className="flex-grow-1" />
+                        <span className="text-body-secondary">or</span>
+                        <hr className="flex-grow-1" />
+                    </div>
+
+                    <div className="d-grid gap-2">
+                        <a className="btn btn-outline-primary" href="/oauth2/authorization/github">Continue with GitHub</a>
+                        <a className="btn btn-outline-primary" href="/oauth2/authorization/google">Continue with Google</a>
+                    </div>
+
                     <p className="mt-3 mb-0">
                         Already have an account? <Link to="/login">Log in</Link>
                     </p>
