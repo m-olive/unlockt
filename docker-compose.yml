@@ -48,6 +48,10 @@ services:
       - DB_USERNAME=dbeaver
       - DB_PASSWORD=dbeaver
       - STEAM_API_KEY=${STEAM_API_KEY:?set STEAM_API_KEY in .env}
+      - GITHUB_CLIENT_ID=${GITHUB_CLIENT_ID:?set GITHUB_CLIENT_ID in .env}
+      - GITHUB_CLIENT_SECRET=${GITHUB_CLIENT_SECRET:?set GITHUB_CLIENT_SECRET in .env}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:?set GOOGLE_CLIENT_ID in .env}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:?set GOOGLE_CLIENT_SECRET in .env}
 
   caddy:
     image: caddy:2-alpine

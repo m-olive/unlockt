@@ -43,7 +43,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login(oauth -> oauth
                         .userInfoEndpoint(userInfo -> userInfo.userService(oAuth2AppUserService))
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/library", true)
                         .failureUrl("/login?error")
                 )
                 .exceptionHandling(e -> e.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
